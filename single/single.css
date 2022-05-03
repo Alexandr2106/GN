@@ -1,0 +1,337 @@
+    .breadcrumb a {
+        color: #585858!important;
+        font-size: 12px;
+        line-height: 13px;
+        letter-spacing: 0.02em;
+    }
+    
+    .breadcrumb {
+        margin-bottom: 30px;
+    }
+    
+    .main-content {
+        background-color: white;
+        font-size: 16px;
+    }
+    
+    .main-content h2 {
+        font-weight: 700;
+        font-size: 30px;
+        line-height: 35px;
+        text-transform: uppercase;
+        margin-bottom: 20px;
+    }
+    
+    .main-content .descript {
+        color: #585858;
+        font-size: 14px;
+        font-style: italic;
+        grid-gap: 10px;
+        align-items: center;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-bottom: 10px;
+    }
+    
+    .descript span {
+        align-items: center;
+        color: #585858;
+        display: flex;
+        flex-wrap: nowrap;
+    }
+    
+    .descript img {
+        width: 20px;
+        margin-right: 5px;
+    }
+    
+    .main-content a {
+        color: #c5001a;
+    }
+    
+    .main-content a:hover {
+        color: #ff0123;
+    }
+    
+    .single-content iframe {
+        position: relative;
+        width: 100%;
+        height: 56.25vw;
+        max-height: calc(100vh - 169px);
+    }
+    
+    .main-content p {
+        padding: 10px 0;
+    }
+    
+    li::marker {
+        color: #c5001a;
+    }
+    
+    .image-main {
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .image-main img {
+        max-width: 100%;
+        margin-bottom: 10px;
+    }
+    
+    .main-content blockquote {
+        border-left: 3px solid #c5001a;
+        font-style: italic;
+        margin: 10px 0 10px;
+        padding: 5px 20px 5px 20px
+    }
+    
+    .price-block {
+        margin-bottom: 20px;
+        margin-top: 20px;
+    }
+    
+    .price-block .game-price-header {
+        text-align: center;
+    }
+    
+    .price-block .game-price-name {
+        margin: 10px 0 15px;
+    }
+    
+    .price-block .game-price-name h1 {
+        font-size: 16px;
+        color: var(--hover-color);
+    }
+    
+    .price-block .shop-list {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        overflow: hidden;
+    }
+    
+    .price-block .game-prices-item {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        height: 90px;
+        position: relative;
+        overflow: hidden;
+        border-top: 1px solid #c3c3c3;
+    }
+    
+    .price-block .item-one {
+        width: 235px;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .price-block .item-two {
+        width: 308px;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+    }
+    
+    .price-block .game-price {
+        display: block;
+        font-size: 16px;
+        font-weight: bold;
+        text-align: center;
+    }
+    
+    .price-block .price-value,
+    .currency {
+        font-size: 16px;
+        font-weight: bold;
+        text-align: center;
+        color: var(--nav-color);
+    }
+    
+    .price-block .buy-btn {
+        border-radius: 5px;
+        background-color: var(--hover-color);
+        padding: 10px 10px;
+        font-weight: bold;
+        color: #fff;
+        margin-left: 20px;
+    }
+    
+    @media (max-width:575px) {
+        .price-block .item-two {
+            width: 100%;
+        }
+    }
+    
+    @media (max-width:427px) {
+        .price-block a.game-prices-item {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            height: 130px;
+            align-items: center;
+        }
+    }
+    
+    .comments {
+        margin-top: 40px;
+    }
+    
+    .post-comment {
+        margin-top: 60px;
+    }
+    
+    .main-comments {
+        display: flex;
+        gap: 10px;
+    }
+    
+    .comment-avatar img {
+        background: black;
+        width: 50px;
+        border-radius: 100%;
+        vertical-align: middle;
+    }
+    
+    .input-comment {
+        width: 100%;
+    }
+    
+    .field {
+        display: block;
+        font-size: 14px;
+        max-height: 50vh;
+        outline: none;
+        overflow-x: hidden;
+        overflow-y: auto;
+        position: relative;
+        width: 100%;
+    }
+    
+    .comment-input {
+        width: 100%;
+        resize: none;
+        height: 100px;
+        /* background-color: #fbfbfb; */
+        padding: 20px 20px;
+        /* box-shadow: 0 0 3px rgb(0 0 0 / 30%) inset; */
+        border-radius: 10px;
+        border: 1px solid #c3c3c3;
+    }
+    
+    .comment-alert {
+        margin-bottom: 10px;
+        margin-left: 60px;
+    }
+    
+    .comment-btn .submit {
+        align-items: center;
+        border: 1px solid var(--hover-color);
+        border-radius: 10px;
+        box-shadow: 1px 1px 3px #830011;
+        color: var(--hover-color);
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 500;
+        height: 50px;
+        max-width: 170px;
+        text-decoration: none;
+        transform: skew(-5deg);
+        justify-content: center;
+        text-transform: uppercase;
+        background: 0;
+    }
+    
+    .comment-btn .submit:hover {
+        background: var(--hover-color);
+        color: white;
+    }
+    
+    .comment-btn {
+        display: flex;
+        gap: 10px;
+        margin-top: 10px;
+    }
+    
+    .comment-btn .reset {
+        background: 0;
+        color: var(--hover-color);
+        text-transform: uppercase;
+        font-size: 14px;
+        font-weight: 500;
+    }
+    
+    .comment-btn .reset:hover {
+        color: #7e0011;
+    }
+    
+    .value-comment {
+        font-size: 32px;
+        font-weight: 300;
+        margin-bottom: 20px;
+        margin-top: 20px;
+    }
+    
+    .comments-container {
+        display: flex;
+        gap: 10px;
+        border-top: 1px solid #c3c3c3;
+        padding-top: 15px;
+        margin-bottom: 25px;
+    }
+    
+    .comments-item-content {
+        width: 100%;
+        height: 100px;
+        background-color: #fbfbfb;
+        padding: 20px 20px;
+        /* box-shadow: 0 0 3px rgb(0 0 0 / 30%) inset; */
+        border-radius: 10px;
+        /* border: 1px solid #c3c3c3;*/
+    }
+    
+    .comments-item-header {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 10px;
+        align-items: center;
+    }
+    
+    .comments-item-timestamp {
+        font-size: 12px;
+        color: #585858;
+    }
+    
+    .comment {
+        flex-grow: 1;
+    }
+    
+    .comment-text p {
+        padding: 0;
+    }
+    
+    .if-form {
+        border-radius: 10px;
+        border: 1px solid #c3c3c3;
+        padding: 20px;
+    }
+    
+    .com-anotation {
+        text-align: center;
+        font-weight: 500;
+        margin-bottom: 30px;
+        font-size: 16px;
+    }
+    
+    .login_block {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        font-size: 16px;
+    }
