@@ -1,0 +1,249 @@
+.titling-news {
+    margin-left: 10px;
+    margin-top: 20px;
+}
+
+.news-block {
+    position: relative;
+    margin-bottom: 20px;
+    background-color: var(--background-color);
+    color: white;
+    display: flex;
+    padding: 20px;
+    border-radius: 20px;
+    min-height: 320px;
+}
+
+.inner-box {
+    position: relative;
+    padding-left: 300px;
+    width: 100%;
+}
+
+.inner-box:hover {
+    transform: scale(1.01);
+    transition: all .5s cubic-bezier(0, 0, 0.2, 1);
+}
+
+.inner-box .image {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 280px;
+    height: 280px;
+    overflow: hidden;
+    align-items: center;
+    border-radius: 10px;
+}
+
+.inner-box .title {
+    position: relative;
+    font-size: 18px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+}
+
+.inner-box .descript-wrap {
+    position: relative;
+    color: #c2c2c2;
+    font-size: 14px;
+}
+
+
+/*Лента новостей
+.single-anons {
+    align-items: center;
+    border-radius: 20px;
+    margin-bottom: 20px;
+    max-width: 100%;
+    font-size: 17px;
+
+    background-color: #1d2124;
+    color: white;
+    overflow: auto;
+}
+.row {
+    max-height: 320px;
+    padding: 20px;
+}
+.description {
+    margin-left: 20px;
+    padding: 0;
+}
+.heading {
+    font-size: 24px;
+    font-weight: 500;
+}
+.text {
+    margin-top: 20px;
+}
+.img-cont {
+    width: 280px;
+    height: 280px;
+    overflow: hidden;
+    align-items: center;
+    border-radius: 10px;
+}*/
+
+.imga {
+    height: 100%;
+    border-radius: 10px;
+    width: 100%;
+    object-fit: cover;
+    transition: all 1s cubic-bezier(0, 0, 0.2, 1);
+}
+
+.imga:hover {
+    transform: scale(1.1);
+}
+
+.imgi {
+    height: 15px;
+    width: 15px;
+}
+
+a {
+    color: white;
+    text-decoration: none;
+}
+
+.descript-wrap {
+    margin-top: 20px;
+    text-align: right;
+    align-items: center;
+    color: #bfbfbf;
+    flex-wrap: wrap;
+    font-size: 12px;
+    font-style: italic;
+}
+
+.descript-wrap span {
+    padding: 0px 5px 0px 5px;
+}
+
+
+/**/
+
+
+/*Блок игр*/
+
+.game-block {
+    max-width: 520px;
+    height: 660px;
+    background-color: var(--background-color);
+    color: white;
+    border-radius: 20px;
+    padding: 20px 30px;
+    margin: 0 20px 20px 0;
+    float: left;
+}
+
+@media (max-width: 1200px) {
+    .game-block {
+        max-width: 100%;
+        float: none;
+        margin: 0 0 20px;
+    }
+    .list-group-item {
+        max-width: 100% !important;
+    }
+}
+
+.list-group-item {
+    max-width: 448px;
+    max-height: 40px;
+    padding: 0;
+    overflow: hidden;
+    border-radius: 5px;
+    margin: 5px;
+    border: 0;
+    background-color: #1d2124;
+}
+
+.list-group-item:hover {
+    transform: scale(1.1);
+    transition: 1s;
+}
+
+.Gimg {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    filter: brightness(70%);
+    border-radius: 5px;
+    object-fit: cover;
+}
+
+.Gimg:hover {
+    transform: scale(1.1);
+    transition: all .5s cubic-bezier(0, 0, 0.2, 1);
+}
+
+.game-heading {
+    position: absolute;
+    top: 25%;
+    text-indent: 20px;
+    color: white;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 21px;
+    display: flex;
+    align-items: center;
+}
+
+@media (max-width: 767px) {
+    .inner-box {
+        padding-left: 0;
+    }
+    .image {
+        position: relative !important;
+        left: 0px;
+        top: 0px;
+        overflow: hidden;
+        align-items: center;
+        border-radius: 10px;
+        width: 100% !important;
+        margin-bottom: 20px;
+    }
+    /*.text {
+        display: none;
+    }*/
+}
+
+
+/*@media (max-width: 1399px) {
+    .game-block {
+        display: none;
+    }
+}*/
+
+.pages {
+    display: flex;
+    justify-content: center;
+    flex-wrap: nowrap;
+    gap: 5px;
+}
+
+.pages a {
+    color: black;
+    font-size: 16px;
+    height: 32px;
+    text-align: center;
+    width: 32px;
+    line-height: 32px;
+    border-radius: 5px;
+    transform: skew(-5deg);
+}
+
+.pages a:hover {
+    color: var(--hover-color);
+}
+
+.a-active {
+    background-color: var(--hover-color);
+    color: white !important;
+    padding-left: 10px;
+    padding-right: 10px;
+    position: relative;
+}
