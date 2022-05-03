@@ -1,0 +1,150 @@
+.container.content-game {
+    background: white;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 0;
+}
+
+.sidebar {
+    padding: 20px;
+    background: #fbfbfb;
+}
+
+.layout {
+    --sidebar-min-width: 264px;
+    display: grid;
+    flex-direction: row;
+    grid-template-columns: max(var(--sidebar-min-width), 24%) 1fr;
+}
+
+@media (max-width:767px) {
+    .layout {
+        display: flex;
+        flex-direction: column;
+    }
+    .sorts {
+        position: relative !important;
+    }
+}
+
+.sorts {
+    position: fixed;
+}
+
+.sorts ul {
+    list-style-type: none;
+    color: var(--nav-color);
+    padding: 0;
+    text-transform: uppercase;
+    font-weight: 500;
+}
+
+.sort-item {
+    padding-bottom: 10px;
+}
+
+.sort-item a {
+    color: black;
+    text-decoration: none;
+}
+
+.filter:hover {
+    border-bottom: 2px solid var(--hover-color);
+    cursor: pointer;
+}
+
+.sort-selected {
+    border-bottom: 2px solid var(--hover-color);
+}
+
+.game-list.game-list {
+    padding: 20px;
+    padding-left: 40px;
+    padding-top: 38px;
+}
+
+.game-list .game-item {
+    border-top: 1px solid #c3c3c3;
+    /*#efefef*/
+    display: flex;
+    gap: 20px;
+    margin-top: 10px;
+    padding-bottom: 15px;
+    padding-top: 25px;
+}
+
+.game-list .game-img {
+    width: 300px;
+    height: 200px;
+    overflow: hidden;
+    align-items: center;
+}
+
+.game-list .game-img img {
+    height: 100%;
+    border-radius: 10px;
+    width: 100%;
+    object-fit: cover;
+}
+
+.game-deatils {
+    width: 100%;
+}
+
+.game-name a {
+    font-size: 18px;
+    font-weight: 600;
+    color: black;
+}
+
+.game-specs {
+    margin-top: 10px;
+    font-size: 12px;
+    line-height: 16px;
+    color: #636363;
+}
+
+.specs-item {
+    font-style: italic;
+}
+
+.specs-item span:nth-child(2) {
+    font-style: italic;
+    font-weight: bold;
+}
+
+.view-all-about {
+    margin-top: 40px;
+}
+
+.view-all-about a {
+    color: #636363;
+}
+
+@media (max-width: 400px) {
+    .game-list .game-item {
+        border-top: 1px solid #adadad;
+        /*#efefef*/
+        display: flex;
+        gap: 20px;
+        margin-top: 10px;
+        padding-bottom: 15px;
+        padding-top: 25px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    .game-list .game-img {
+        width: 280px;
+        height: 200px;
+        overflow: hidden;
+        align-items: center;
+    }
+}
+
+.game-list .pages {
+    display: flex;
+    justify-content: center;
+    flex-wrap: nowrap;
+    gap: 5px;
+    margin-top: 40px;
+}
