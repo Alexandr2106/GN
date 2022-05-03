@@ -1,0 +1,84 @@
+.admin-layout {
+    --sidebar-min-width: 50%;
+    display: grid;
+    flex-direction: row;
+    grid-template-columns: max(var(--sidebar-min-width), 24%) 1fr;
+}
+
+@media (max-width: 767px) {
+    .admin-layout {
+        display: flex;
+        flex-direction: column;
+    }
+    .left-side-news {
+        border-bottom: 1px solid #c3c3c3;
+        border-right: none !important;
+    }
+}
+
+.right-side-games {
+    padding-left: 10px;
+}
+
+.left-side-news {
+    border-right: 1px solid #c3c3c3;
+    padding-right: 10px;
+}
+
+.add-button {
+    align-items: center;
+    border: 1px solid var(--hover-color);
+    border-radius: 10px;
+    box-shadow: 1px 1px 3px #830011;
+    color: var(--hover-color);
+    cursor: pointer;
+    display: flex;
+    font-size: 14px;
+    font-weight: 500;
+    height: 50px;
+    width: 100%;
+    text-decoration: none;
+    transform: skew(-5deg);
+    justify-content: center;
+    text-transform: uppercase;
+}
+
+.add-button:hover {
+    background-color: var(--hover-color);
+    color: white;
+}
+
+.admin-panel {
+    margin-top: 20px;
+}
+
+.edit,
+.delete {
+    align-items: center;
+    border: 1px solid var(--hover-color);
+    border-radius: 10px;
+    box-shadow: 1px 1px 3px #830011;
+    color: var(--hover-color);
+    cursor: pointer;
+    background: #fff;
+    display: flex;
+    font-size: 14px;
+    font-weight: 500;
+    height: 50px;
+    max-width: 150px;
+    text-decoration: none;
+    transform: skew(-5deg);
+    justify-content: center;
+    text-transform: uppercase;
+}
+
+.edit:hover,
+.delete:hover {
+    background-color: var(--hover-color);
+    color: #fff;
+}
+
+.table-heading {
+    font-size: 16px;
+    font-weight: bold;
+}

@@ -1,0 +1,62 @@
+.authorization {
+    background-color: var(--background-color);
+}
+
+.card-form {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    max-width: 600px;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    border-radius: 20px;
+    margin: auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.reg-btn {
+    border: 1px solid var(--hover-color);
+    background-color: #fff;
+    color: var(--hover-color);
+    height: 50px;
+}
+
+.reg-btn:hover {
+    background-color: var(--hover-color);
+    color: #fff;
+}
+
+.authorization a:hover {
+    color: var(--hover-color) !important;
+}
+
+.authorization h2 {
+    font-weight: 900;
+}
+
+.authorization input[type="checkbox"]:checked {
+    background-color: var(--hover-color);
+    border: var(--hover-color) 1px solid;
+}
+
+.unactive_a {
+    pointer-events: none;
+    cursor: default;
+}
+
+.login-btn {
+    border: 1px solid var(--hover-color);
+    background-color: #fff;
+    color: var(--hover-color);
+    height: 50px;
+    padding: 0 50px;
+}
+
+.login-btn:hover {
+    background-color: var(--hover-color);
+    color: #fff;
+}
