@@ -1,0 +1,67 @@
+.mail .content {
+    background: #070304;
+    padding: 20px;
+}
+
+.mailing {
+    min-height: 271px;
+}
+
+.mailing h4 {
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 28px;
+    text-align: center;
+    color: #FFFFFF;
+    margin-bottom: 20px;
+}
+
+.undt-p {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 19px;
+    text-align: center;
+    color: #FFFFFF;
+    margin-bottom: 40px;
+}
+
+.mailing .form-control {
+    font-weight: 400;
+    font-size: 16px;
+    color: #B0B0B0;
+    height: 55px;
+    max-width: 300px;
+    border-radius: 5px;
+}
+
+.mailing .btn {
+    width: 207px;
+    height: 55px;
+    background-color: #C5001A;
+    color: white;
+    border-radius: 20px;
+}
+
+.mailing .btn:hover {
+    background-color: #df001e;
+}
+
+.form-mailing {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 20px;
+    justify-content: center;
+    margin-bottom: 40px;
+}
+
+.footnote {
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 14px;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.5);
+    max-width: 527px;
+    margin: auto;
+}
