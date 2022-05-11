@@ -1,12 +1,11 @@
 <?php
-$dbhost = "localhost";
+$dbhost = "192.168.0.148";
 $dbname = "gamenews_db";
-$username = "root";
+$username = "admin";
 $password = "";
 
 
 $db = new PDO("mysql:host=$dbhost;dbname=$dbname", $username, $password);
-
 //Получение всех статей по лимиту
 function get_singles_all($limit)
 {
@@ -70,7 +69,6 @@ function get_games_all()
     $games_all = $db->query("SELECT * FROM `games`");
     return $games_all;
 }
-
 //Получение всех статей для слайдера 
 function get_singeles_for_slider()
 {
@@ -191,10 +189,10 @@ function get_comments_count_by_id($id)
     }
 }
 //Добавление нового комментария к статье
-function add_new_comment($user_login, $comment, $article_id, $admin)
+function add_new_comment($user_login, $comment, $article_id, $user_avatar)
 {
     global $db;
-    $comments = $db->query("INSERT INTO `comments` (`id`, `article_id`, `comment`, `user_login`, `admin`, `publication_date`) VALUES (NULL, '$article_id', '$comment', '$user_login', '$admin', CURRENT_TIMESTAMP);");
+    $comments = $db->query("INSERT INTO `comments` (`id`, `article_id`, `comment`, `user_login`, `user_avatar`, `publication_date`) VALUES (NULL, '$article_id', '$comment', '$user_login', '$user_avatar', CURRENT_TIMESTAMP);");
     return $comments;
 }
 //Получение пользователя из БД по логину и паролю
@@ -225,4 +223,242 @@ function get_login_data($login, $password)
         return $results;
     }
 }
+//Получение статей к игре по id
+function get_articles_by_game_id($id, $limit)
+{
+    global $db;
+    $articles = $db->query("SELECT * FROM `articles` WHERE `games_id` = '$id' ORDER BY `pubdate` DESC LIMIT " . $limit);
+    return $articles;
+}
+//Получение кол-ва статей к игре по id
+function get_articles_count_by_game_id($id)
+{
+    global $db;
+    $count = $db->query("SELECT count(*) FROM `articles` WHERE `games_id` = '$id' ORDER BY `pubdate` DESC");
+    if (is_array($count) || is_object($count)) {
+        foreach ($count as $count) {
+            return $count[0];
+        }
+    }
+}
+//Смена логина
+function change_login_on_db($new_login, $login)
+{
+    global $db;
+    $db->query("UPDATE `user` SET `login` = '$new_login' WHERE `login` = '$login'");
+}
+//Получение пользователя по id
+function get_user($id)
+{
+    global $db;
+    $user = $db->query("SELECT * FROM `user` WHERE `id` = '$id'");
+    if (is_array($user) || is_object($user)) {
+        foreach ($user as $user) {
+            return $user;
+        }
+    }
+}
+//Смена пароля
+function change_password_on_db($login, $new_password, $password)
+{
+    global $db;
+    $results = $db->query("SELECT count(*) FROM `user` WHERE `login` = '$login'");
+    if (is_array($results) || is_object($results)) {
+        foreach ($results as $result) {
+            $result = $result[0];
+        }
+    }
+    if ($result > 0) {
+        $results = $db->query("SELECT * FROM `user` WHERE `login` = '$login'");
+        if (is_array($results) || is_object($results)) {
+            foreach ($results as $result) {
+                $result = $result;
+            }
+        }
+        if (password_verify($password, $result['password'])) {
 
+            if (password_verify($new_password, $result['password'])) {
+                $results = "*Новый пароль не может быть таким же как старый!";
+                return $results;
+            } else {
+                $new_password = password_hash($new_password, PASSWORD_DEFAULT);
+                $db->query("UPDATE `user` SET `password` = '$new_password' WHERE `login` = '$login'");
+                $results = "Пароль успешно изменён.";
+                return $results;
+            }
+        } else {
+            $results = "*Старый пароль введён неверно.";
+            return $results;
+        }
+    } else {
+        echo "*Обновите страницу!";
+    }
+}
+//Восстановление пароля
+function password_recovery_db($email)
+{
+    global $db;
+    $results = $db->query("SELECT count(*) FROM `user` WHERE `email` = '$email'");
+    if (is_array($results) || is_object($results)) {
+        foreach ($results as $result) {
+            $result = $result[0];
+        }
+    }
+    if ($result > 0) {
+        $permitted_chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $password = substr(str_shuffle($permitted_chars), 0, 8);
+        $password_hash = password_hash($password, PASSWORD_DEFAULT);
+        $db->query("UPDATE `user` SET `password` = '$password_hash' WHERE `email` = '$email'");
+        return $password;
+    } else {
+        $result = "*Пользователя с такой почтой не существует.";
+        return $result;
+    }
+}
+//Добавление ссылки на аватар пользователя в бд
+function add_user_avatar($url, $login)
+{
+    global $db;
+    $db->query("UPDATE `user` SET `user_avatar` = '$url' WHERE `login` = '$login';");
+}
+//Добавление новой статьи
+function add_new_article($article_title, $prewie_text, $full_text, $article_img, $game_id, $add_slider)
+{
+    global $db;
+    $results = $db->query("SELECT count(*) FROM `articles` WHERE `title` = '$article_title'");
+    if (is_array($results) || is_object($results)) {
+        foreach ($results as $result) {
+            $result = $result[0];
+        }
+    }
+    if ($result > 0) {
+        $result = 0;
+        return $result;
+    } else {
+        $db->query("INSERT INTO `articles` (`id`, `title`, `prewie_text`, `full_text`, `img`, `games_id`, `pubdate`, `views`, `slider`) VALUES (NULL, '$article_title', '$prewie_text', '$full_text', '$article_img', '$game_id', CURRENT_TIMESTAMP, '0', '$add_slider');");
+
+        $results = $db->query("SELECT count(*) FROM `articles` WHERE `prewie_text` = '$prewie_text'");
+        if (is_array($results) || is_object($results)) {
+            foreach ($results as $result) {
+                return $result[0];
+            }
+        }
+    }
+}
+
+//Добавление новой игры
+function add_new_game($game_name, $game_image, $description, $platform, $genre, $release_date)
+{
+    global $db;
+    $results = $db->query("SELECT count(*) FROM `games` WHERE `name_game` = '$game_name'");
+    if (is_array($results) || is_object($results)) {
+        foreach ($results as $result) {
+            $result = $result[0];
+        }
+    }
+    if ($result > 0) {
+        $result = 0;
+        return $result;
+    } else {
+        $db->query("INSERT INTO `games` (`id`, `name_game`, `Gimg`, `description`, `platform`, `genre`, `release_date`) VALUES (NULL, '$game_name', '$game_image', '$description', '$platform', '$genre', '$release_date');");
+
+        $results = $db->query("SELECT count(*) FROM `games` WHERE `name_game` = '$game_name'");
+        if (is_array($results) || is_object($results)) {
+            foreach ($results as $result) {
+                return $result[0];
+            }
+        }
+    }
+}
+
+//Удаление игры по id
+function delete_game($id)
+{
+    global $db;
+
+    $results = $db->query("SELECT count(*) FROM `articles` WHERE `games_id` = '$id'");
+    if (is_array($results) || is_object($results)) {
+        foreach ($results as $result) {
+            $result = $result[0];
+        }
+    }
+
+    if ($result == 0) {
+        $db->query("DELETE FROM `games` WHERE `games`.`id` = '$id'");
+
+        $results = $db->query("SELECT count(*) FROM `games` WHERE `id` = '$id'");
+        if (is_array($results) || is_object($results)) {
+            foreach ($results as $result) {
+                return $result[0];
+            }
+        }
+    } else {
+        $result = "К этой игре привязаны статьи.";
+        return $result;
+    }
+}
+
+//Удаление статьи по id
+function delete_article($id)
+{
+    global $db;
+
+    $results = $db->query("SELECT count(*) FROM `articles` WHERE `id` = '$id'");
+    if (is_array($results) || is_object($results)) {
+        foreach ($results as $result) {
+            $result = $result[0];
+        }
+    }
+
+    $db->query("DELETE FROM `articles` WHERE `articles`.`id` = '$id'");
+
+    $results = $db->query("SELECT count(*) FROM `articles` WHERE `id` = '$id'");
+    if (is_array($results) || is_object($results)) {
+        foreach ($results as $result) {
+            return $result[0];
+        }
+    }
+}
+//Редактирование статьи
+function edit_article($article_id, $edit_article_title, $edit_prewie_text, $edit_full_text, $edit_article_img, $edit_game_id, $edit_slider)
+{
+    global $db;
+    $results = $db->query("SELECT count(*) FROM `articles` WHERE `id` = '$article_id'");
+    if (is_array($results) || is_object($results)) {
+        foreach ($results as $result) {
+            $result = $result[0];
+        }
+    }
+    if ($result == 0) {
+        $result = -1;
+        return $result;
+    } else {
+
+        $db->query("UPDATE `articles` SET `title` = '$edit_article_title', `prewie_text` = '$edit_prewie_text', `full_text` = '$edit_full_text', `img` = '$edit_article_img', `games_id` = '$edit_game_id', `slider` = '$edit_slider' WHERE `id` = '$article_id';");
+
+        $result = 1;
+        return $result;
+    }
+}
+
+//Редактирование игры
+function edit_game($game_id, $edit_game_name, $edit_game_img, $edit_description, $edit_platform, $edit_genre, $edit_release_date)
+{
+    global $db;
+    $results = $db->query("SELECT count(*) FROM `games` WHERE `id` = '$game_id'");
+    if (is_array($results) || is_object($results)) {
+        foreach ($results as $result) {
+            $result = $result[0];
+        }
+    }
+    if ($result == 0) {
+        $result = -1;
+        return $result;
+    } else {
+
+        $db->query("UPDATE `games` SET `name_game` = '$edit_game_name', `Gimg` = '$edit_game_img', `description` = '$edit_description', `platform` = '$edit_platform', `genre` = '$edit_genre', `release_date` = '$edit_release_date' WHERE `id` = '$game_id';");
+
+        $result = 1;
+        return $result;
+    }
+}
