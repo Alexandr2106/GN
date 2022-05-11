@@ -2,6 +2,7 @@
     --background-color: #0a1215;
     --nav-color: #070304;
     --hover-color: #c5001a;
+    --background-color-light: #dedfe1;
 }
 
 html,
@@ -12,9 +13,10 @@ body {
 body {
     margin: 0;
     font-family: Roboto, sans-serif;
-    background: var(--background-color);
+    background: var(--background-color-light)/*var(--background-color)*/
+    ;
     font-size: 14px;
-    padding-top: 96px;
+    padding-top: 80px;
 }
 
 body::-webkit-scrollbar {
@@ -43,6 +45,11 @@ body::-webkit-scrollbar-thumb {
     min-height: 100vh;
 }
 
+.container,
+.footer {
+    position: relative;
+}
+
 header,
 footer {
     background-color: var(--nav-color);
@@ -58,7 +65,7 @@ a:hover {
 
 #header {
     font-size: 16px;
-    height: 96px;
+    height: 80px;
     left: 0;
     position: fixed;
     right: 0;
@@ -66,14 +73,26 @@ a:hover {
     z-index: 8;
 }
 
+.navbar {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
 @media (max-width: 991px) {
     header .navbar-collapse {
         left: 0;
         position: fixed;
         right: 0;
-        top: 96px;
+        top: 80px;
         z-index: 2;
         background-color: var(--nav-color);
+        padding-bottom: 10px;
+        padding-right: 31px;
     }
 }
 
@@ -104,6 +123,10 @@ a:hover {
     left: 841px;
     top: 20px;
 }*/
+
+.navbar-dark .navbar-nav .nav-link {
+    color: #ffffff;
+}
 
 .me-auto {
     margin-left: 329px !important;
@@ -345,12 +368,14 @@ p {
     align-self: center;
 }
 
-.hover-lk {
+.user .hover-lk {
     position: absolute;
     padding: 10px;
-    right: 277px;
+    transform: translateX(-98px);
+    /*right: 277px;*/
     white-space: nowrap;
-    top: 29px;
+    top: 18px;
+    width: 242px;
     background: #313131;
     border: #313131 1px solid;
     box-shadow: 0 1px 10px #131313;
@@ -368,6 +393,7 @@ p {
     position: relative;
     z-index: 1000;
     border-radius: 100%;
+    object-fit: cover;
 }
 
 .lk-link {
@@ -451,7 +477,7 @@ p {
 }
 
 .modal-dialog {
-    margin-top: 90px;
+    margin-top: 80px;
     min-width: 100%;
 }
 
@@ -481,4 +507,80 @@ p {
     /* цвет плашки */
     border-radius: 10px;
     /* закругления плашки */
+}
+
+@media (max-width:991px) {
+    .user,
+    .search {
+        padding-left: 31px;
+        margin-bottom: 15px;
+    }
+    .ssearch_mod input.ssearch_inp {
+        height: 50px;
+        border-radius: 10px;
+        line-height: 32px;
+        border: 1px solid #CCC;
+        font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+        font-size: 16px;
+        width: 100%;
+        color: #000;
+        padding: 0px 44px 0px 8px;
+        background-image: url(/img/search-dark.png);
+        background-size: 32px;
+        background-repeat: no-repeat;
+        background-position: right 10px center;
+    }
+    .hover-lk {
+        display: none !important;
+    }
+    .user .nav-item {
+        display: flex;
+        align-content: center;
+        align-items: center;
+        width: 100%;
+        justify-content: space-between;
+    }
+    .search {
+        justify-content: center;
+    }
+}
+
+@media (min-width: 992px) {
+    .small-exit {
+        display: none;
+    }
+}
+
+.btn-check:focus+.btn,
+.btn:focus {
+    outline: 0;
+    box-shadow: none;
+}
+
+.brand {
+    background-position: top;
+    background-repeat: no-repeat;
+    height: calc(100% - 80px);
+    position: fixed;
+    top: 80px;
+    width: 100vw;
+    cursor: pointer;
+}
+
+.fakeShift {
+    height: 180px;
+    pointer-events: none;
+    position: relative;
+}
+
+.hide {
+    display: none;
+}
+
+.not-hide {
+    display: block;
+}
+
+.ssearch_mod input.ssearch_inp:focus-visible {
+    outline: -webkit-focus-ring-color auto 0px;
 }
