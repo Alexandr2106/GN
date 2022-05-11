@@ -1,4 +1,4 @@
-<main class="container content">
+<main class="container content" style="background-color: #fbfbfb;">
     <div class="blok-header">
         Последнее
     </div>

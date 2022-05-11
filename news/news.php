@@ -108,7 +108,7 @@
 
 
             <?
-            if ($page_num <= 4) {
+            if ($page_num <= 4 || $page_count < 8) {
             ?>
 
                 <a class="<?php if ($page_num == 1) {
@@ -144,7 +144,7 @@
                         if ($page_num == $i) {
                             echo " a-active";
                         }
-                        echo "' href='./?page=news&go=$go&page_num=$i'>$i</a></li>";
+                        echo "' href='./?page=news&go=$go&page_num=$i'>$i</a>";
                     }
                 } elseif ($page_num <= 4) {
 
@@ -153,7 +153,7 @@
                         if ($page_num == $i) {
                             echo " a-active";
                         }
-                        echo "' href='./?page=news&go=$go&page_num=$i'>$i</a></li>";
+                        echo "' href='./?page=news&go=$go&page_num=$i'>$i</a>";
                     }
                 } elseif ($page_num > ($page_count - 3)) {
 
@@ -162,7 +162,7 @@
                         if ($page_num == $i) {
                             echo " a-active";
                         }
-                        echo "' href='./?page=news&go=$go&page_num=$i'>$i</a></li>";
+                        echo "' href='./?page=news&go=$go&page_num=$i'>$i</a>";
                     }
                 }
 
@@ -174,12 +174,12 @@
 
 
             <?
-            if ($page_num > ($page_count - 3) || $page_count < 7) {
+            if ($page_num > ($page_count - 4) || $page_count < 8) {
             ?>
 
                 <a class="<?php if ($page_num == $page_count) {
                                 echo " a-active";
-                            } ?>" href="./?page=news&go=<? echo $count_1 - 15; ?>&page_num=<? echo $page_count; ?>"><? echo $page_count; ?></a>
+                            } ?>" href="./?page=news&go=<? echo $go; ?>&page_num=<? echo $page_count; ?>"><? echo $page_count; ?></a>
 
             <?
             } else {
@@ -187,7 +187,7 @@
                 <p style="line-height: 32px;">...</p>
                 <a class="<?php if ($page_num == $page_count) {
                                 echo " a-active";
-                            } ?>" href="./?page=news&go=<? echo $count_1 - 15; ?>&page_num=<? echo $page_count; ?>"><? echo $page_count; ?></a>
+                            } ?>" href="./?page=news&go=<? echo $go; ?>&page_num=<? echo $page_count; ?>"><? echo $page_count; ?></a>
             <?
             }
             ?>
@@ -204,7 +204,7 @@
             //Шаг назад
             if ($_GET['go'] > 0) :
             ?>
-                <a href="./?page=games&go=<? print($_GET['go'] - 15); ?>&page_num=<? echo $_GET['page_num'] - 1; ?>">&#10094;</a>
+                <a href="./?page=news&go=<? print($_GET['go'] - 15); ?>&page_num=<? echo $_GET['page_num'] - 1; ?>">&#10094;</a>
             <?
             endif;
             $go = 0;
@@ -214,14 +214,14 @@
                 if ($page_num == $i) {
                     echo " a-active";
                 }
-                echo "' href='./?page=games&go=$go&page_num=$i'>$i</a></li>";
+                echo "' href='./?page=news&go=$go&page_num=$i'>$i</a>";
 
                 $go += 15;
             }
             //Шаг вперёд
             if (($_GET['go'] + 15) < $count_1) :
             ?>
-                <a href="./?page=games&go=<? print($_GET['go'] + 15); ?>&page_num=<? echo $_GET['page_num'] + 1; ?>">&#10095;</a>
+                <a href="./?page=news&go=<? print($_GET['go'] + 15); ?>&page_num=<? echo $_GET['page_num'] + 1; ?>">&#10095;</a>
         <?
             endif;
         }
