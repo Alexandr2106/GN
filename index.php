@@ -1,5 +1,21 @@
-<?php require "./DB.php";
+<?php
+require "./DB.php";
+if (isset($_GET['id'])) {
+    if (!isset($_COOKIE['ViewsCookie'])) {
+        setcookie("ViewsCookie", $_GET['id'], time() + 900);
+        views_update($_GET['id']);
+    } else if (isset($_COOKIE['ViewsCookie'])) {
+        if (stristr($_COOKIE['ViewsCookie'], $_GET['id']) == false) {
+            $arr =  $_COOKIE['ViewsCookie'];
+            setcookie("ViewsCookie", "", time() - 900);
+            $arr .= "-" . $_GET['id'];
+            setcookie("ViewsCookie", $arr, time() + 900);
+            views_update($_GET['id']);
+        }
+    }
+}
 session_start();
+$user = get_user($_SESSION['user_id']);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -18,6 +34,7 @@ session_start();
     <link rel="stylesheet" href="login/login.css">
     <link rel="stylesheet" href="form/mailing.css">
     <link rel="stylesheet" href="games/games-style.css">
+    <link rel="stylesheet" href="games/game-single.css">
     <link rel="stylesheet" href="help/help.css">
     <link rel="stylesheet" href="login/lk/lk.css">
     <link rel="stylesheet" href="login/admin-panel/admin.css">
@@ -27,10 +44,13 @@ session_start();
 
 <body>
     <div class="wrapper">
+        <div class="brand" style="display:none;background-image: url(https://avatars.mds.yandex.net/get-adfox-content/2765366/220415_adfox_1708047_4631112_2.4976c3d47ff0f51a7e78a8cf5af25f86.jpg/optimize.webp);"></div>
+        <!--<div class="fakeShift" style="height: 180px;"></div>-->
+
         <header id="header" class="#">
             <nav class="navbar navbar-expand-lg navbar-dark">
                 <div class="container-xxl">
-                    <a class="navbar-brand active" data-toggle="tooltip" data-placement="bottom" title="На главную" href="index.php" style="text-decoration: none;">
+                    <a class="navbar-brand a-title" data-toggle="tooltip" data-placement="bottom" title="На главную" href="index.php" style="text-decoration: none;">
                         <img src="img/svg/loogoo.svg" alt="" width="70px" height="70px">
                         GameNews
                     </a>
@@ -69,23 +89,23 @@ session_start();
                                             <div class="ssearch_mod">
                                                 <div class="ssearch_in">
                                                     <div class="ssearch_inner">
-                                                        <input type="Text" class="ssearch_inp" placeholder="Найти игру...">
+                                                        <input type="text" id="search" class="ssearch_inp" placeholder="Найти игру..." required>
                                                     </div>
                                                 </div>
 
                                                 <!-- КОНТЕНТ ОТОБРАЖАЕМЫЙ В ПОИСКЕ -->
-                                                <div class="ssearch_container" style="display:none;">
+                                                <div class="ssearch_container">
+
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
                         </ul>
 
                         <ul class="nav user">
                             <!--НЕ АВТОРИЗИРОВАННЫЙ-->
-                            <? if (empty($_SESSION['login'])) : ?>
+                            <? if (empty($_SESSION['user_id'])) : ?>
                                 <li class="nav-item">
                                     <a href="./?page=log">
                                         <button type="button" class="btn btn-dark">
@@ -95,20 +115,25 @@ session_start();
                                     </a>
                                 </li>
 
-                            <? elseif (isset($_SESSION['login'])) : ?>
+                            <? elseif (isset($_SESSION['user_id'])) : ?>
                                 <!--АВТОРИЗИРОВАННЫЙ-->
                                 <li class="nav-item">
                                     <a href="./?page=lk">
                                         <button type="button" class="btn btn-dark">
-                                            <span class="main-nickname"><? echo $_SESSION['login']; ?></span>
-                                            <img src="img/svg/login.png" alt="" width="32px" height="32px">
+                                            <span class="main-nickname"><? echo $user['login']; ?></span>
+                                            <? if ($user['user_avatar'] == NULL) : ?>
+                                                <img src="img/svg/login.png" alt="" width="32px" height="32px">
+                                            <? else : ?>
+                                                <img src="<? echo $user['user_avatar']; ?>" alt="" width="32px" height="32px">
+                                            <? endif; ?>
                                         </button>
                                     </a>
+                                    <a href="./login/logout.php" class="small-exit"><img src="img/logout.png" alt="">Выйти</a>
 
                                     <!--ПОЯВЛЯЕТСЯ ПРИ НАВЕДЕНИИ-->
                                     <div class="hover-lk">
                                         <a class="lk-link" href="./?page=lk">
-                                            <? echo $_SESSION['login']; ?>
+                                            <? echo $user['login']; ?>
                                             <span style="color: white; font-size: 11px; line-height: 11px; display: block;">
                                                 Комментарии: <i style="color: #19B95B; font-size: 12px">Разрешенны</i>
                                             </span>
@@ -157,11 +182,15 @@ session_start();
 
             require "./help/help.php";
 
-        elseif (isset($_GET['page']) && $_GET['page'] == "lk") :
+        elseif (isset($_GET['page']) && $_GET['page'] == "lk"  && isset($_SESSION['user_id'])) :
 
             require "./login/lk/lk.php";
 
-        elseif (isset($_GET['page']) && $_GET['page'] == "admin") :
+        elseif (isset($_GET['page']) && $_GET['page'] == "pass_recovery") :
+
+            require "./login/password_recovery.php";
+
+        elseif (isset($_GET['page']) && $_GET['page'] == "admin" && isset($_SESSION['user_id']) && $user['admin'] == "1") :
 
             require "./login/admin-panel/admin.php";
         else :
@@ -209,6 +238,10 @@ session_start();
     <script src="./slider/slider.js"></script>
     <script src="./login/login_func/login_func.js"></script>
     <script src="./single/comments_controller.js"></script>
+    <script src="./login/lk/lk_func.js"></script>
+    <script src="./login/admin-panel/admin_func.js"></script>
+
+    <script src="search.js"></script>
 </body>
 
 </html>
