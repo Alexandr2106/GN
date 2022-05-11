@@ -7,7 +7,7 @@ if ($count_singeles_for_slider >= 9) :
 
 
 
-    <div class="container content" style="background-color: white;">
+    <div class="container content" style="background-color: #fbfbfb;">
         <div class="blok-header">
             Важные новости
         </div>
