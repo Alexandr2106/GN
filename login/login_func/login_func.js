@@ -210,7 +210,7 @@ function confirmation_email() {
                     alert("Операция не выполнена, попробуйте позже.");
                 } else {
                     alert(data);
-                    url = "../../index.php";
+                    url = "./?page=log";
                     setTimeout('location.href=url', 100);
                     this.href = 'javascript:void(0)';
                 }
@@ -292,4 +292,56 @@ function user_login(){
 
         }
     })
+}
+function password_recovery() {
+    let action = "password_recovery";
+    let email = $('#email').val().trim();
+
+    if (isEmail($('#email').val().trim()) === false) {
+        $('#email_err').html("*Вы не правильно ввели почту (пример: xxxxxx@xxx.xx)");
+        $('#email').css("border-color", "red");
+    } else {
+        $('#email_err').html("");
+        $('#email').css("border-color", "#ced4da");
+
+        let confirmation = confirm(`Если вы нажмёте ДА, к вам на почту будет отправлен новый пароль.`)
+        if (confirmation == true) {
+            $.ajax({
+                url: "./login/login_func/login_func.php",
+                type: "POST",
+                cache: false,
+                data: {
+
+                    email: email,
+                    action: action
+
+                },
+                beforeSend: function () {
+
+                    $("#recovery").prop("disabled", true);
+
+                },
+                success: function (data) {
+
+
+                    if (!data) {
+                        alert("Операция не выполнена, попробуйте позже.");
+                    } else if (data.includes("*Пользователя с такой почтой не существует.") === true) {
+                        $('#email_err').css("color", "red");
+                        $('#email_err').html(data);
+                        $('#email').css("border-color", "red");
+                        $("#recovery").prop("disabled", false);
+                    } else {
+                        $('#email_err').css("color", "green");
+                        $('#email_err').html("Новый пароль был отправлен вам на почту");
+                        
+                        url = "./?page=log";
+                        setTimeout('location.href=url', 500);
+                        this.href = 'javascript:void(0)';
+                    }
+
+                }
+            })
+        }
+    }
 }

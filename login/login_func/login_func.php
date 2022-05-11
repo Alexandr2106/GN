@@ -60,10 +60,17 @@ if ($_POST['action'] == "login") {
     $result = get_login_data($login, $password);
     if ($result != "Неверный логин или пароль.") {
         session_start();
-
-        $_SESSION['login'] = $result['login'];
-        $_SESSION['password'] = $result['password'];
+        $_SESSION['user_id'] = $result['id'];
         exit;
     }
     print_r($result);
+}
+if($_POST['action'] == "password_recovery"){
+    $email = $_POST['email'];
+    //$result = "1";
+    $result = password_recovery_db($email);
+    echo $result;
+    if($result != "*Пользователя с такой почтой не существует."){
+        require_once("../password_recovery_mail.php");
+    }
 }

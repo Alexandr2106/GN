@@ -1,5 +1,5 @@
 .admin-layout {
-    --sidebar-min-width: 50%;
+    --sidebar-min-width: 57%;
     display: grid;
     flex-direction: row;
     grid-template-columns: max(var(--sidebar-min-width), 24%) 1fr;
@@ -52,6 +52,14 @@
     margin-top: 20px;
 }
 
+.admin-panel tr {
+    vertical-align: top;
+}
+
+.admin-panel td:first-child {
+    width: 35px;
+}
+
 .edit,
 .delete {
     align-items: center;
@@ -72,6 +80,10 @@
     text-transform: uppercase;
 }
 
+.delete {
+    font-size: 13px;
+}
+
 .edit:hover,
 .delete:hover {
     background-color: var(--hover-color);
@@ -81,4 +93,329 @@
 .table-heading {
     font-size: 16px;
     font-weight: bold;
+}
+
+.Modal,
+.ModalTwo,
+.ModalEdit,
+.ModalEditTwo {
+    border: 0;
+    border-radius: 4px;
+    padding: 1.25em;
+}
+
+.Modal[open],
+.ModalTwo[open],
+.ModalEdit[open],
+.ModalEditTwo[open] {
+    animation: zoom 0.2s linear forwards;
+}
+
+.Modal[close],
+.ModalTwo[close],
+.ModalEditTwo[close],
+.ModalEdit[close] {
+    animation: zoom 0.2s linear forwards;
+}
+
+.Modal::backdrop,
+.ModalTwo::backdrop,
+.ModalEdit::backdrop,
+.ModalEditTwo::backdrop {
+    background-color: #252525;
+    opacity: 0.8;
+}
+
+.Modal-inner {
+    display: flex;
+    flex-direction: column;
+}
+
+.Modal-inner h2 {
+    margin-bottom: 20px;
+}
+
+@keyframes zoom {
+    0% {
+        transform: scale(0.2);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.adding,
+.adding-shop {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.adding-shop input {
+    width: 40%;
+    padding: 5px;
+    border-radius: 5px;
+    border: 0.5px solid;
+}
+
+.adding label,
+.adding-shop label {
+    width: 150px;
+}
+
+.adding input,
+.adding textarea,
+.adding select {
+    width: 83%;
+    padding: 5px;
+    border-radius: 5px;
+    border: 0.5px solid;
+}
+
+.adding input:focus-visible,
+.adding textarea:focus-visible,
+.adding select:focus-visible,
+.adding-shop input:focus-visible,
+.adding-shop textarea:focus-visible,
+.adding-shop select:focus-visible {
+    outline: -webkit-focus-ring-color auto 0.5px;
+    outline-color: var(--hover-color);
+    outline-style: auto;
+    outline-width: 1px;
+}
+
+.form-note {
+    color: #2c2c2c;
+    font-size: 12px;
+    font-style: italic;
+    margin-top: 5px;
+}
+
+.article-button {
+    margin-bottom: 10px;
+    align-self: center;
+}
+
+.article-button .add-button,
+.Modal-inner .add-button {
+    width: 150px;
+    align-self: center;
+}
+
+.Modal-inner .closeModal,
+.closeModalTwo,
+.closeModalEdit,
+.closeModalEditTwo {
+    background: var(--hover-color);
+    color: white;
+}
+
+.Modal-inner .closeModal:hover,
+.closeModalTwo:hover,
+.closeModalEdit:hover,
+.closeModalEditTwo {
+    background: #df001e;
+    transform: scale(1.1) skew(-5deg);
+}
+
+.admin-btn {
+    height: 21px;
+    font-size: 12px;
+    line-height: 14px;
+    background: #fff;
+    border: 1px solid var(--hover-color);
+    transform: skew(-5deg);
+    border-radius: 5px;
+    color: var(--hover-color);
+}
+
+.admin-btn:hover {
+    background: var(--hover-color);
+    color: #fff;
+    transform: scale(1.1) skew(-5deg);
+}
+
+.table-heading th {
+    padding-bottom: 5px;
+}
+
+.cap {
+    font-size: 18px;
+    font-weight: 500;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.admin-shops {
+    border-top: 1px solid #c3c3c3;
+    padding-top: 20px;
+}
+
+.switch {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.switch input[type="checkbox"] {
+    width: 45px;
+    height: 20px;
+    -webkit-appearance: none;
+    outline: none;
+    background-color: #fff;
+    border: 1px solid var(--hover-color);
+    border-radius: 25px;
+    transition: .5s;
+    box-shadow: inset 0 0 3px #62000d;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.switch input:checked[type="checkbox"] {
+    background: #df001e;
+}
+
+.switch input[type="checkbox"]::before {
+    content: '';
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    border-radius: 100%;
+    background-color: var(--hover-color);
+    transition: .5s;
+    transform: scale(1.1);
+    box-shadow: 0 2px 5px #c3c3c3;
+    cursor: pointer;
+}
+
+.switch input:checked[type="checkbox"]::before {
+    margin-left: 18px;
+    background-color: #fff;
+    box-shadow: 0 2px 5px #4a4a4a;
+}
+
+.switch h5 {
+    margin: 0;
+    text-align: center;
+}
+
+@media (max-width: 1308px) {
+    .adding label,
+    .adding-shop label {
+        width: 150px;
+        flex-basis: 100%;
+    }
+    .adding-shop input {
+        width: 48%;
+    }
+    .adding input,
+    .adding textarea,
+    .adding select {
+        width: 100%;
+    }
+    .Modal,
+    .ModalEdit,
+    .ModalEditTwo,
+    .ModalTwo {
+        width: 80% !important;
+    }
+    .edit,
+    .delete {
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 900px) {
+    .adding,
+    .adding-shop {
+        margin-bottom: 20px;
+        display: flex;
+        /* align-items: flex-start; */
+        justify-content: space-between;
+        flex-wrap: wrap;
+        flex-direction: column;
+    }
+    .adding-shop input {
+        width: 100%;
+        margin-bottom: 5px;
+    }
+    .Modal,
+    .ModalEdit,
+    .ModalEditTwo,
+    .ModalTwo {
+        width: 80% !important;
+    }
+}
+
+@media (max-width: 403px) {
+    .edit,
+    .delete {
+        display: block;
+        align-items: center;
+        cursor: pointer;
+        border: 0;
+        background: #fff;
+        display: flex;
+        font-size: 14px;
+        font-weight: 500;
+        border-radius: 0;
+        box-shadow: 1px 1px 3px #ffffff;
+        height: 50px;
+        transform: skew(-5deg);
+        justify-content: center;
+        text-transform: uppercase;
+        height: 32px;
+    }
+    .edit span,
+    .delete span {
+        display: none;
+    }
+    .edit img,
+    .delete img {
+        width: 32px;
+        height: 32px;
+    }
+    .user-profile-header-info {
+        justify-content: center;
+    }
+    .user-profile-header-info div:first-child {
+        padding-right: 0;
+    }
+    .right-side-games {
+        margin-top: 10px;
+    }
+    .left-side-news {
+        margin-bottom: 10px;
+    }
+    .edit:hover,
+    .delete:hover {
+        background-color: #ffffff00;
+        color: #fff;
+        height: 32px;
+    }
+}
+
+@media (min-width: 403px) {
+    .edit img,
+    .delete img {
+        display: none;
+    }
+}
+
+@media (max-width: 366px) {
+    .content-lk .blok-header {
+        font-size: 24px;
+    }
+}
+
+@media (max-width: 359px) {
+    .tab {
+        font-size: 11px;
+    }
 }

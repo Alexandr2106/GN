@@ -6,6 +6,7 @@ require '../../libs/PHPMailer/Exception.php';
 
 
 $title = "GameNews - Проверка электронной почты";
+
 $body = "
 <div style='background-color:#070304;'>
     <table style='background: ##070304; color: white; margin: auto; margin-bottom: 40px; margin-top: 20px;'>
@@ -25,10 +26,10 @@ $body = "
 
         <tbody>
             <tr>
-                <td><div style='width: 100%; text-align: center; font-family: sans-serif; color: #ffffff; font-size: 26px; line-height: 32px; line-height: 100%; letter-spacing: 2px; margin-bottom: 15px;'>Email Код Активации:</div></td>
+                <td><div style='width: 100%; text-align: center; font-family: sans-serif; color: #ffffff; font-size: 26px; line-height: 32px; line-height: 100%; letter-spacing: 2px; margin-bottom: 15px;'>Ваш новый пароль:</div></td>
             </tr>
             <tr>
-                <td><div style='width: 100%; text-align: center; font-family: sans-serif; color: #000000; font-size: 26px; line-height: 50px; letter-spacing: 5px; background: #ffffff; font-weight: bold;'>$code</div></td>
+                <td><div style='width: 100%; text-align: center; font-family: sans-serif; color: #000000; font-size: 26px; line-height: 50px; letter-spacing: 5px; background: #ffffff; font-weight: bold;'>$result</div></td>
             </tr>
         </tbody>
     </table>
@@ -43,7 +44,7 @@ $body = "
 
                         <br><br>
 
-                        Пожалуйста, подтвердите свой адрес электронной почты, используя приведенный выше код, чтобы завершить настройку учетной записи.
+                        Вы можете войти в свою учётную, используя указнный выше пароль.
                                                 
                         <br><br>
 
@@ -118,4 +119,3 @@ else {$result = "error";}
 
 // Отображение результата
 //echo json_encode(["result" => $result, "resultfile" => $rfile, "status" => $status]);
-
