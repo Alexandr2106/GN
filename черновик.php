@@ -3,17 +3,13 @@
 
 <!-- ЕСЛИ НЕТ ВИДЕО ИЛИ ДРУГИХ КОНТЕСТВОЫХ ИЗОБРАЖЕНИЙ -->
 <div class="image-main">
-    <div><img src="https://live.staticflickr.com/65535/52039794582_6862edc896_b.jpg"></div>
+    <img widht="1000" height="438" src="https://www.iphones.ru/wp-content/uploads/2021/08/intelarc.jpg">
 </div>
 
-<p>Скоро до релиза доберётся паранормальный экшен GhostWire: Tokyo. И в преддверии этого события IGN опубликовал 18 минут геймплея.</p>
-
-<iframe width="1863" height="795" src="https://www.youtube.com/embed/wki4dEza97A" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-
-<p>Описание игры:</p>
-<blockquote>
-    После того как по вине зловещего оккультиста население Токио в один миг исчезло без следа, город оказался во власти смертоносных потусторонних сил. Объедините силы с могучим потусторонним существом, которым движет жажда возмездия, овладейте целым арсеналом мощных способностей, раскройте тайну исчезновения людей и БРОСЬТЕ ВЫЗОВ НЕИЗВЕДАННОМУ в Ghostwire: Tokyo.
-</blockquote>
+<p>Согласно данным источника, первые настольные адаптеры выйдут либо в конце мая, либо в начале июня. Это будут Arc A750 и A580. Адаптеры будут позиционироваться против GeForce RTX 3060 и RTX 3050 соответственно, а цены, по слухам, будут равны 350 и 280 долларов. Спустя несколько недель (ориентировочно в июле) выйдет Arc A380 за 150 долларов и с производительностью на уровне GTX 1650.</p>
+<p>Таким образом, сначала Intel выведет на рынок среднебюджетные адаптеры, затем — модель младшего уровня, а вот флагманских решений придётся подождать, хотя обычно AMD и Nvidia делают наоборот.
+<p>
+<p>Источник: <a href="https://www.reddit.com/r/gadgets/comments/uj0kp3/intel_arc_gpus_ready_for_showtime_a750_a580_and/?utm_medium=android_app&utm_source=share">reddit</a></p>
 <!--/Сатья-->
 <!--Списки-->
 <ul>
@@ -41,7 +37,9 @@
 </blockquote>
 
 <div class="image-main">
-    <div><img src="" alt="изображение" loading="lazy"></div>
+    <div><img src="" alt="изображение" loading="lazy">
+        <div class="img-sub">Пояснение к изображению.</div> <!--Пояснение к изображению-->
+    </div>
     <div><img src="" alt="" loading="lazy"></div>
     <div><img src="" alt="" loading="lazy"></div>
 </div>
