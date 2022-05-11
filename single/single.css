@@ -1,5 +1,5 @@
     .breadcrumb a {
-        color: #585858!important;
+        color: #585858 !important;
         font-size: 12px;
         line-height: 13px;
         letter-spacing: 0.02em;
@@ -76,8 +76,15 @@
     }
     
     .image-main img {
-        max-width: 100%;
-        margin-bottom: 10px;
+        width: 100%;
+        margin-top: 10px;
+    }
+    
+    .image-main .img-sub {
+        width: 100%;
+        background: #e5e5e5;
+        color: black;
+        padding: 10px 40px;
     }
     
     .main-content blockquote {
@@ -195,8 +202,10 @@
     .comment-avatar img {
         background: black;
         width: 50px;
+        height: 50px;
         border-radius: 100%;
         vertical-align: middle;
+        object-fit: cover;
     }
     
     .input-comment {

@@ -1,35 +1,25 @@
 <?php
-
 $single = get_singele_by_id($_GET['id']);
 $game = get_games_by_id($single["games_id"]);
 $comments_count = get_comments_count_by_id($_GET['id']);
-
-if (!isset($_COOKIE['ViewsCookie'])) {
-
-    views_update($_GET['id']);
-    setcookie("ViewsCookie", $single['id'], time() + 900);
-} else if (isset($_COOKIE['ViewsCookie'])) {
-
-    if (stristr($_COOKIE['ViewsCookie'], $single['id']) == false) {
-
-        $arr =  $_COOKIE['ViewsCookie'];
-        setcookie("ViewsCookie", "", time() - 900);
-        $arr .= "-" . $single['id'];
-        setcookie("ViewsCookie", $arr, time() + 900);
-        views_update($_GET['id']);
-    }
-}
 ?>
-
 <div class="container content">
     <div class="main-content">
         <div class="content-single">
-            <section aria-label="breadcrumb" style="--bs-breadcrumb-divider: '|';">
+            <section aria-label="breadcrumb" style="--bs-breadcrumb-divider: '|'; display: flex; justify-content: space-between; flex-wrap: wrap;">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="./index.php">Главная</a></li>
                     <li class="breadcrumb-item"><a href="./?page=news">Новости</a></li>
                     <li class="breadcrumb-item"><a href="#" onclick="window.history.back();">Назад</a></li>
                 </ol>
+
+                <? if ($user['admin'] == "1") : ?>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><button class="admin-btn">Редактировать</button></li>
+                        <li class="breadcrumb-item"><button class="admin-btn">Добавить на слайдер</button></li>
+                        <li class="breadcrumb-item"><button class="admin-btn">Удалить</button></li>
+                    </ol>
+                <? endif; ?>
             </section>
             <div>
                 <h2><?php echo $single["title"]; ?></h2>
@@ -54,7 +44,7 @@ if (!isset($_COOKIE['ViewsCookie'])) {
                 <div>
                     <div class="game-price-header">
                         <div class="game-price-name">
-                            <h1>Посмтореть <?php echo $game; ?>:</h1>
+                            <h1>Посмтореть <?php echo $game['name_game']; ?>:</h1>
                         </div>
                     </div>
 
@@ -165,7 +155,7 @@ if (!isset($_COOKIE['ViewsCookie'])) {
 
                                     <div class="item-two">
                                         <div class="game-price">
-                                            <span class="price-value"><?php echo $shops['ZakaZaka_price']; ?></span>
+                                            <span class="price-value"><?php echo $shops['ZakaZAka_price']; ?></span>
                                             <span class="currency">₽</span>
                                             <span class="buy-btn">посмотреть</span>
                                         </div>
@@ -188,7 +178,7 @@ if (!isset($_COOKIE['ViewsCookie'])) {
         }
         ?>
 
-        <? if (empty($_SESSION['login'])) : ?>
+        <? if (empty($_SESSION['user_id'])) : ?>
             <section>
                 <div class="comments">
                     <!--В СЛУЧАЕ, ЕСЛИ ПОЛЬЗОВАТЕЛЬ НЕ АВТОРИЗИРОВАН-->
@@ -199,20 +189,29 @@ if (!isset($_COOKIE['ViewsCookie'])) {
                             <a href="./?page=reg">Зарегистрироваться</a>
                         </div>
                     </div>
-                <? elseif (isset($_SESSION['login'])) : ?>
+                <? elseif (isset($_SESSION['user_id'])) : ?>
                     <!--ВВОД КОММЕНТАРИЯ-->
                     <div class="post-comment">
                         <div class="comment-alert">Проявление <strong>ксенофобии</strong> и <strong>обсуждение политики</strong> в комментариях запрещены.</div>
                         <div class="main-comments">
                             <div class="comment-item-avatar">
                                 <div class="comment-avatar">
-                                    <img src="/img/svg/login.png" alt="Аватар пользователя">
+                                    <? if ($user['user_avatar'] == NULL) : ?>
+                                        <img src="/img/svg/login.png" alt="Аватар пользователя">
+                                    <? else : ?>
+                                        <img src="<? echo $user['user_avatar']; ?>" alt="Аватар пользователя">
+                                    <? endif; ?>
                                 </div>
                             </div>
                             <div class="input-comment">
                                 <form>
                                     <div class="field">
-                                        <input type="text" id="user_login" style="display: none;" value="<? echo $_SESSION['login']; ?>">
+                                        <? if ($user['admin'] == "0") : ?>
+                                            <input type="text" id="user_login" style="display: none;" value="<? echo $user['login']; ?>">
+                                        <? elseif ($user['admin'] == "1") : ?>
+                                            <input type="text" id="user_login" style="display: none;" value="Администратор: <? echo $user['login']; ?>">
+                                        <? endif; ?>
+                                        <input type="text" id="user_avatar" style="display: none;" value="<? echo $user['user_avatar'] ?>">
                                         <input type="text" id="article_id" style="display: none;" value="<? echo $_GET['id'] ?>">
                                         <textarea class="comment-input" id="comment" placeholder="Оставьте ваше мнение в комментариях"></textarea>
                                         <div style="color: red;" id="comment_error"></div>
@@ -243,14 +242,21 @@ if (!isset($_COOKIE['ViewsCookie'])) {
                             <div class="comments-container">
                                 <div class="comment-item-avatar">
                                     <div class="comment-avatar">
-                                        <img src="/img/svg/login.png" alt="Аватар пользователя">
+                                        <? if ($comment['user_avatar'] == NULL) : ?>
+                                            <img src="/img/svg/login.png" alt="Аватар пользователя">
+                                        <? else : ?>
+                                            <img src="<? echo $comment['user_avatar']; ?>" alt="Аватар пользователя">
+                                        <? endif; ?>
                                     </div>
                                 </div>
 
                                 <div class="comment">
                                     <div class="comments-item-header">
-                                        <span class="comments-author"><? echo $comment['user_login']; ?></span>
-
+                                        <? if (strpos($comment['user_login'], "Администратор:") !== false) : ?>
+                                            <span class="comments-author" style="color: red;"><? echo $comment['user_login']; ?></span>
+                                        <? else : ?>
+                                            <span class="comments-author"><? echo $comment['user_login']; ?></span>
+                                        <? endif; ?>
                                         <span class="comments-item-timestamp">
                                             <? echo $comment['publication_date']; ?>
                                         </span>

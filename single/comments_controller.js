@@ -1,8 +1,8 @@
 function add_new_comment(){
     let user_login = $("#user_login").val().trim();
+    let user_avatar = $("#user_avatar").val().trim();
     let article_id = $("#article_id").val().trim();
     let comment = $("#comment").val().trim();
-    //let user_avatar = $(".comment-avatar img").attr("src");
     let error = 0;
     if(comment == ""){
         $("#comment_error").html("*Введите комментарий.");
@@ -25,7 +25,7 @@ function add_new_comment(){
                 user_login: user_login,
                 comment: comment,
                 article_id: article_id,
-                //user_avatar: user_avatar
+                user_avatar: user_avatar
 
             },
             beforeSend: function () {
