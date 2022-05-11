@@ -17,7 +17,7 @@
     grid-template-columns: max(var(--sidebar-min-width), 24%) 1fr;
 }
 
-@media (max-width:767px) {
+@media (max-width:991px) {
     .layout {
         display: flex;
         flex-direction: column;
@@ -61,6 +61,14 @@
     padding: 20px;
     padding-left: 40px;
     padding-top: 38px;
+}
+
+@media (max-width: 350px) {
+    .game-list.game-list {
+        padding: 20px;
+        padding-left: 20px !important;
+        padding-top: 38px;
+    }
 }
 
 .game-list .game-item {

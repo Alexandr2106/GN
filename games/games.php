@@ -52,13 +52,13 @@
 
                     <div class="game-item">
                         <div class="game-img">
-                            <a href="./?game_id=<? echo $game['id']; ?>">
+                            <a href="./?game_id=<? echo $game['id']; ?>&go=0&page_num=1">
                                 <img src="<? echo $game['Gimg']; ?>" alt="">
                             </a>
                         </div>
                         <div class="game-deatils">
                             <div class="row game-name">
-                                <a href="./?game_id=<? echo $game['id']; ?>"><? echo $game['name_game']; ?></a>
+                                <a href="./?game_id=<? echo $game['id']; ?>&go=0&page_num=1"><? echo $game['name_game']; ?></a>
                             </div>
                             <div class="game-specs">
                                 <div class="specs-item">
@@ -105,7 +105,7 @@
                 }
                 $page_num = $_GET['page_num'];
 
-                if ($page_count > 2) {
+                if ($page_count > 2 || $page_count < 8) {
 
                 ?>
 
@@ -203,12 +203,12 @@
 
 
                     <?
-                    if ($page_num > ($page_count - 3) || $page_count < 8) {
+                    if ($page_num > ($page_count - 4) || $page_count < 8) {
                     ?>
 
                         <a class="<?php if ($page_num == $page_count) {
                                         echo " a-active";
-                                    } ?>" href="./?page=games&go=<? echo $count_1 - 15; ?>&page_num=<? echo $page_count; ?><? if (isset($_GET['sort'])) {
+                                    } ?>" href="./?page=games&go=<? echo $go; ?>&page_num=<? echo $page_count; ?><? if (isset($_GET['sort'])) {
                                                                                                                                 echo "&sort=" . $_GET['sort'];
                                                                                                                             }  ?>"><? echo $page_count; ?></a>
 
@@ -218,7 +218,7 @@
                         <p style="line-height: 32px;">...</p>
                         <a class="<?php if ($page_num == $page_count) {
                                         echo " a-active";
-                                    } ?>" href="./?page=games&go=<? echo $count_1 - 15; ?>&page_num=<? echo $page_count; ?><? if (isset($_GET['sort'])) {
+                                    } ?>" href="./?page=games&go=<? echo $go; ?>&page_num=<? echo $page_count; ?><? if (isset($_GET['sort'])) {
                                                                                                                                 echo "&sort=" . $_GET['sort'];
                                                                                                                             }  ?>"><? echo $page_count; ?></a>
                     <?
