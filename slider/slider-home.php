@@ -29,7 +29,7 @@ if ($count_singeles_for_slider >= 9) :
 
                             <div class="left-slide">
                                 <a href="./?id=<?php echo $sliderSing["id"]; ?>">
-                                    <img src="<?php echo $sliderSing['img']; ?>" loading="lazy" alt="Первый слайд">
+                                    <img src="<?php echo $sliderSing['img']; ?>" loading="lazy" alt="Первый слайд" height="520">
                                     <!--<p class="slideText">Заголовок слайда 1</p>-->
                                     <div class="article-slide">
                                         <span class="article-title-left"><?php echo $sliderSing['title']; ?></span>
@@ -80,11 +80,8 @@ if ($count_singeles_for_slider >= 9) :
 
                         <div class="item">
                             <div class="left-slide">
-
-
-
                                 <a href="./?id=<?php echo $sliderSing["id"]; ?>">
-                                    <img src="<?php echo $sliderSing['img']; ?>" loading="lazy" alt="Первый слайд">
+                                    <img src="<?php echo $sliderSing['img']; ?>" loading="lazy" alt="Первый слайд" height="520">
                                     <!--<p class="slideText">Заголовок слайда 1</p>-->
                                     <div class="article-slide">
                                         <span class="article-title-left"><?php echo $sliderSing['title']; ?></span>
@@ -139,7 +136,7 @@ if ($count_singeles_for_slider >= 9) :
                         <div class="item">
                             <div class="left-slide">
                                 <a href="./?id=<?php echo $sliderSing["id"]; ?>">
-                                    <img src="<?php echo $sliderSing['img']; ?>" loading="lazy" alt="Первый слайд">
+                                    <img src="<?php echo $sliderSing['img']; ?>" loading="lazy" alt="Первый слайд" height="520">
                                     <!--<p class="slideText">Заголовок слайда 1</p>-->
                                     <div class="article-slide">
                                         <span class="article-title-left"><?php echo $sliderSing['title']; ?></span>

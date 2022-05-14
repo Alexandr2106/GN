@@ -22,24 +22,66 @@
                 </div>
                 <div class="flex-item">
                     <div>Логин: </div>
-                    <? if ($user['admin'] == "0") : ?>
+                    <? if ($admin == 0) : ?>
                         <div><span class="login"><? echo $user['login']; ?></span></div>
-                    <? elseif ($user['admin'] == "1") : ?>
+                    <? elseif ($admin == 1) : ?>
                         <div><span class="login"><? echo $user['login']; ?><sup class="sup">Админ</sup></span></div>
                     <? endif; ?>
                 </div>
             </div>
             <div class="flex-item">
-                <div class="mailing mail-lk">
-                    <h4>Подписывайтесь на нашу рассылку!</h4>
-                    <p class="undt-p">И будьте в курсе свежих новостей каждую неделю</p>
-                    <form action="" class="form-mailing">
-                        <input type="email" class="form-control" placeholder="Ваш e-mail">
 
-                        <button type="submit" class="btn">Подписаться</button>
-                    </form>
-                    <p class="footnote">Нажимая на кнопку, вы даете согласие на обработку персональных данных и политику конфиденциальности.</p>
-                </div>
+                <button class="btn openModalMailing" style="background-color: red; color: white;">Отправить недельную рассылку</button>
+                <label id="send_mailing_messege"></label>
+                <!-- МОДАЛЬНОЕ ОКНО С ФОРМОЙ ОТПРАВКИ НЕДЕЛЬНОЙ РАССЫЛКИ -->
+                <dialog class="ModalMailing" style="width: 60%;">
+                    <div class="Modal-inner">
+
+                        <h2>Статьи в рассылке на этой неделе:</h2>
+
+                        <form class="article-form" method="POST">
+                            
+                                <?
+                                $results = add_mailing_articles();
+                                //print_r($results);
+                                foreach ($results as $result) :
+                                ?>
+
+                                    <div class="adding">
+                                        <label><? echo $result['id']; ?></label>
+                                        <label><? echo $result['title']; ?></label>
+                                        <label><? echo $result['pubdate']; ?></label>
+                                    </div>
+
+                                    
+
+                                <? endforeach; ?>
+                            
+                        </form>
+                        <label id="send_mailing_stay" style="color:brown"></label>
+                        <button class="btn add-button" id="send_mailing">Отправить</button>
+                        <button class="btn add-button closeModalMailing">Закрыть</button>
+                </dialog>
+
+                <script>
+                    const openModalMailing = document.querySelector('.openModalMailing');
+                    const closeModalMailing = document.querySelector('.closeModalMailing');
+                    const ModalMailing = document.querySelector('.ModalMailing');
+
+                    openModalMailing.addEventListener('click', () => {
+                        ModalMailing.showModal()
+                    })
+
+                    closeModalMailing.addEventListener('click', () => {
+                        ModalMailing.close()
+                    })
+
+                    ModalMailing.addEventListener('click', (e) => {
+                        if (e.target === ModalMailing) ModalMailing.close()
+                    })
+                </script>
+                <!-- /МОДАЛЬНОЕ ОКНО С ФОРМОЙ ОТПРАВКИ НЕДЕЛЬНОЙ РАССЫЛКИ -->
+
             </div>
         </div>
     </div>
@@ -123,7 +165,17 @@
 
                                 <div class="adding">
                                     <label for="add_slider">Добавить на слайдер:</label>
-                                    <select name="game" id="add_slider">
+                                    <select name="slider" id="add_slider">
+
+                                        <option value="1">Да</option>
+                                        <option value="0">Нет</option>
+
+                                    </select>
+                                </div>
+
+                                <div class="adding">
+                                    <label for="add_mailing">Добавить в недельную рассылку:</label>
+                                    <select name="mailing" id="add_mailing">
 
                                         <option value="1">Да</option>
                                         <option value="0">Нет</option>
@@ -239,19 +291,34 @@
                                         </div>
 
                                         <div class="adding">
-                                            <label for="edit_slider">Добавить на слайдер:</label>
-                                            <select name="game" id="edit_slider<? echo $article['id']; ?>">
+                                            <label for="edit_slider<? echo $article['id']; ?>">Добавить на слайдер:</label>
+                                            <select name="slider" id="edit_slider<? echo $article['id']; ?>">
                                                 <? if ($article['slider'] == 1) : ?>
-                                                    <option value="1">Да</option>
-                                                <? else : ?>
+                                                    <option value="1" selected>Да</option>
                                                     <option value="0">Нет</option>
+                                                <? else : ?>
+                                                    <option value="1">Да</option>
+                                                    <option value="0" selected>Нет</option>
+                                                <? endif; ?>
+                                            </select>
+                                        </div>
+
+                                        <div class="adding">
+                                            <label for="edit_mailing<? echo $article['id']; ?>">Добавить в недельную рассылку:</label>
+                                            <select name="mailing" id="edit_mailing<? echo $article['id']; ?>">
+                                                <? if ($article['mailing'] == 1) : ?>
+                                                    <option value="1" selected>Да</option>
+                                                    <option value="0">Нет</option>
+                                                <? else : ?>
+                                                    <option value="1">Да</option>
+                                                    <option value="0" selected>Нет</option>
                                                 <? endif; ?>
                                             </select>
                                         </div>
 
                                         <div class="article-button">
-                                            <label id="edit_article_message"></label>
-                                            <button class="btn add-button" id="edit_article" onclick="edit_article_by_id(<? echo $article['id']; ?>)">Сохранить</button>
+                                            <label id="edit_article_message<? echo $article['id']; ?>"></label>
+                                            <button class="btn add-button" id="edit_article<? echo $article['id']; ?>" onclick="edit_article_by_id(<? echo $article['id']; ?>)">Сохранить</button>
 
                                         </div>
                                     </form>
@@ -278,8 +345,8 @@
                             </script>
                             <!-- /МОДАЛЬНОЕ ОКНО С ФОРМОЙ РЕДАКТИРОВАНИЯ -->
 
-                            <td><button class="delete delete-article" onclick="delete_article(<? echo $article['id']; ?>, '<? echo $article['title']; ?>')"><span>Удалить</span>
-                                    <img src="/img/delete.png" alt="Редактировать"></button></td>
+                            <td><button class="delete delete-article" onclick="delete_article(<? echo $article['id']; ?>, '<? echo $article['title']; ?>',0)"><span>Удалить</span>
+                                    <img src="/img/delete.png" alt="Удалить"></button></td>
 
                         </tr>
 
@@ -341,59 +408,154 @@
 
 
                                 <div class="switch">
-                                    <h5>Редактировать магазины</h5>
-                                    <input type="checkbox" id="toggle" />
-                                    <label for="toggle"></label>
+                                    <h5>Добавить магазины</h5>
                                 </div>
 
                                 <section class="admin-shops">
+
                                     <div class="adding-shop">
-                                        <label for="release_date">Steam:</label>
-                                        <input type="number" name="shop-name" id="release_date" placeholder="Цена">
-                                        <input type="text" name="shop-link" id="release_date" placeholder="Ссылка на магазин">
+                                        <div class="switch">
+                                            <label>Steam:</label>
+                                            <input type="checkbox" id="toggleSteam" />
+                                            <label for="toggleSteam"></label>
+                                        </div>
+                                        <div class="inputSteam">
+                                            <input type="number" id="Steam-price" placeholder="Цена">
+                                            <input type="text" id="Steam-link" placeholder="Ссылка">
+                                        </div>
                                     </div>
 
                                     <div class="adding-shop">
-                                        <label for="release_date">GabeStore:</label>
-                                        <input type="number" name="shop-name" id="release_date" placeholder="Цена">
-                                        <input type="text" name="shop-link" id="release_date" placeholder="Ссылка на магазин">
+                                        <div class="switch">
+                                            <label>GabeStore:</label>
+                                            <input type="checkbox" id="toggleGabeStore" />
+                                            <label for="toggleGabeStore"></label>
+                                        </div>
+
+                                        <div class="inputGabeStore">
+                                            <input type="number" id="GabeStore-price" placeholder="Цена">
+                                            <input type="text" id="GabeStore-link" placeholder="Ссылка">
+                                        </div>
                                     </div>
 
                                     <div class="adding-shop">
-                                        <label for="release_date">EpicGames:</label>
-                                        <input type="number" name="shop-name" id="release_date" placeholder="Цена">
-                                        <input type="text" name="shop-link" id="release_date" placeholder="Ссылка на магазин">
+                                        <div class="switch">
+                                            <label>EpicGames:</label>
+                                            <input type="checkbox" id="toggleEpicGames" />
+                                            <label for="toggleEpicGames"></label>
+                                        </div>
+
+                                        <div class="inputEpicGames">
+                                            <input type="number" id="EpicGames-price" placeholder="Цена">
+                                            <input type="text" id="EpicGames-link" placeholder="Ссылка">
+                                        </div>
                                     </div>
 
                                     <div class="adding-shop">
-                                        <label for="release_date">SteamPay:</label>
-                                        <input type="number" name="shop-name" id="release_date" placeholder="Цена">
-                                        <input type="text" name="shop-link" id="release_date" placeholder="Ссылка на магазин">
+                                        <div class="switch">
+                                            <label>SteamPay:</label>
+                                            <input type="checkbox" id="toggleSteamPay" />
+                                            <label for="toggleSteamPay"></label>
+                                        </div>
+
+                                        <div class="inputSteamPay">
+                                            <input type="number" id="SteamPay-price" placeholder="Цена">
+                                            <input type="text" id="SteamPay-link" placeholder="Ссылка">
+                                        </div>
                                     </div>
 
                                     <div class="adding-shop">
-                                        <label for="release_date">Sous-Buy:</label>
-                                        <input type="number" name="shop-name" id="release_date" placeholder="Цена">
-                                        <input type="text" name="shop-link" id="release_date" placeholder="Ссылка на магазин">
+                                        <div class="switch">
+                                            <label>Sous-Buy:</label>
+                                            <input type="checkbox" id="toggleSous-Buy" />
+                                            <label for="toggleSous-Buy"></label>
+                                        </div>
+                                        <div class="inputSous-Buy">
+                                            <input type="number" id="Sous-Buy-price" placeholder="Цена">
+                                            <input type="text" id="Sous-Buy-link" placeholder="Ссылка">
+                                        </div>
                                     </div>
 
                                     <div class="adding-shop">
-                                        <label for="release_date">Zaka-Zaka:</label>
-                                        <input type="number" name="shop-name" id="release_date" placeholder="Цена">
-                                        <input type="text" name="shop-link" id="release_date" placeholder="Ссылка на магазин">
+                                        <div class="switch">
+                                            <label>Zaka-Zaka:</label>
+                                            <input type="checkbox" id="toggleZaka-Zaka" />
+                                            <label for="toggleZaka-Zaka"></label>
+                                        </div>
+                                        <div class="inputZaka-Zaka">
+                                            <input type="number" id="Zaka-Zaka-price" placeholder="Цена">
+                                            <input type="text" id="Zaka-Zaka-link" placeholder="Ссылка">
+                                        </div>
                                     </div>
                                 </section>
                                 <script>
-                                    let switcher = document.querySelector('#toggle');
-                                    let admin_shops = document.querySelector('.admin-shops');
+                                    let switcherSteam = document.querySelector('#toggleSteam');
+                                    let switcherGabeStore = document.querySelector('#toggleGabeStore');
+                                    let switcherEpicGames = document.querySelector('#toggleEpicGames');
+                                    let switcherSteamPay = document.querySelector('#toggleSteamPay');
+                                    let switcherSous_Buy = document.querySelector('#toggleSous-Buy');
+                                    let switcherZaka_Zaka = document.querySelector('#toggleZaka-Zaka');
 
-                                    admin_shops.style.display = 'none';
+                                    let inputSteam = document.querySelector('.inputSteam');
+                                    let inputGabeStore = document.querySelector('.inputGabeStore');
+                                    let inputEpicGames = document.querySelector('.inputEpicGames');
+                                    let inputSteamPay = document.querySelector('.inputSteamPay');
+                                    let inputSous_Buy = document.querySelector('.inputSous-Buy');
+                                    let inputZaka_Zaka = document.querySelector('.inputZaka-Zaka');
 
-                                    switcher.addEventListener('click', () => {
-                                        if (admin_shops.style.display === 'none') {
-                                            admin_shops.style.display = 'block';
-                                        } else if (admin_shops.style.display === 'block') {
-                                            admin_shops.style.display = 'none';
+
+                                    inputSteam.style.display = 'none';
+                                    inputGabeStore.style.display = 'none';
+                                    inputEpicGames.style.display = 'none';
+                                    inputSteamPay.style.display = 'none';
+                                    inputSous_Buy.style.display = 'none';
+                                    inputZaka_Zaka.style.display = 'none';
+
+                                    switcherSteam.addEventListener('click', () => {
+                                        if (inputSteam.style.display === 'none') {
+                                            inputSteam.style.display = 'block';
+                                        } else if (inputSteam.style.display === 'block') {
+                                            inputSteam.style.display = 'none';
+                                        }
+                                    })
+
+                                    switcherGabeStore.addEventListener('click', () => {
+                                        if (inputGabeStore.style.display === 'none') {
+                                            inputGabeStore.style.display = 'block';
+                                        } else if (inputGabeStore.style.display === 'block') {
+                                            inputGabeStore.style.display = 'none';
+                                        }
+                                    })
+
+                                    switcherEpicGames.addEventListener('click', () => {
+                                        if (inputEpicGames.style.display === 'none') {
+                                            inputEpicGames.style.display = 'block';
+                                        } else if (inputEpicGames.style.display === 'block') {
+                                            inputEpicGames.style.display = 'none';
+                                        }
+                                    })
+
+                                    switcherSteamPay.addEventListener('click', () => {
+                                        if (inputSteamPay.style.display === 'none') {
+                                            inputSteamPay.style.display = 'block';
+                                        } else if (inputSteamPay.style.display === 'block') {
+                                            inputSteamPay.style.display = 'none';
+                                        }
+                                    })
+
+                                    switcherSous_Buy.addEventListener('click', () => {
+                                        if (inputSous_Buy.style.display === 'none') {
+                                            inputSous_Buy.style.display = 'block';
+                                        } else if (inputSous_Buy.style.display === 'block') {
+                                            inputSous_Buy.style.display = 'none';
+                                        }
+                                    })
+
+                                    switcherZaka_Zaka.addEventListener('click', () => {
+                                        if (inputZaka_Zaka.style.display === 'none') {
+                                            inputZaka_Zaka.style.display = 'block';
+                                        } else if (inputZaka_Zaka.style.display === 'block') {
+                                            inputZaka_Zaka.style.display = 'none';
                                         }
                                     })
                                 </script>
@@ -486,6 +648,248 @@
                                             <input type="text" name="Date-release" id="edit_release_date<? echo $game['id']; ?>" value="<? echo $game['release_date']; ?>">
                                         </div>
 
+                                        <div class="switch">
+                                            <h5>Редактировать магазины</h5>
+                                        </div>
+
+                                        <section class="admin-shops">
+
+                                            <?
+                                            $shops = get_shops_by_game_id($game['id']);
+                                            ?>
+
+                                            <div class="adding-shop">
+                                                <div class="switch">
+                                                    <label>Steam:</label>
+                                                    <?
+                                                    if ($shops['steam_price'] == NULL) :
+                                                    ?>
+                                                        <input type="checkbox" id="toggleSteam<? echo $game['id']; ?>" />
+                                                    <?
+                                                    else :
+                                                    ?>
+                                                        <input type="checkbox" id="toggleSteam<? echo $game['id']; ?>" checked />
+                                                    <?
+                                                    endif;
+                                                    ?>
+                                                    <label for="toggleSteam<? echo $game['id']; ?>"></label>
+                                                </div>
+                                                <div class="inputSteam<? echo $game['id']; ?>">
+                                                    <input type="number" id="Steam-price<? echo $game['id']; ?>" value="<? echo $shops['steam_price']; ?>" placeholder="Цена">
+                                                    <input type="text" id="Steam-link<? echo $game['id']; ?>" value="<? echo $shops['steam_link']; ?>" placeholder="Ссылка">
+                                                </div>
+                                            </div>
+
+                                            <div class="adding-shop">
+                                                <div class="switch">
+                                                    <label>GabeStore:</label>
+                                                    <?
+                                                    if ($shops['gabestore_price'] == NULL) :
+                                                    ?>
+                                                        <input type="checkbox" id="toggleGabeStore<? echo $game['id']; ?>" />
+                                                    <?
+                                                    else :
+                                                    ?>
+                                                        <input type="checkbox" id="toggleGabeStore<? echo $game['id']; ?>" checked />
+                                                    <?
+                                                    endif;
+                                                    ?>
+                                                    <label for="toggleGabeStore<? echo $game['id']; ?>"></label>
+                                                </div>
+
+                                                <div class="inputGabeStore<? echo $game['id']; ?>">
+                                                    <input type="number" id="GabeStore-price<? echo $game['id']; ?>" value="<? echo $shops['gabestore_price']; ?>" placeholder="Цена">
+                                                    <input type="text" id="GabeStore-link<? echo $game['id']; ?>" value="<? echo $shops['gabestore_link']; ?>" placeholder="Ссылка">
+                                                </div>
+                                            </div>
+
+                                            <div class="adding-shop">
+                                                <div class="switch">
+                                                    <label>EpicGames:</label>
+                                                    <?
+                                                    if ($shops['EpicGames_price'] == NULL) :
+                                                    ?>
+                                                        <input type="checkbox" id="toggleEpicGames<? echo $game['id']; ?>" />
+                                                    <?
+                                                    else :
+                                                    ?>
+                                                        <input type="checkbox" id="toggleEpicGames<? echo $game['id']; ?>" checked />
+                                                    <?
+                                                    endif;
+                                                    ?>
+                                                    <label for="toggleEpicGames<? echo $game['id']; ?>"></label>
+                                                </div>
+
+                                                <div class="inputEpicGames<? echo $game['id']; ?>">
+                                                    <input type="number" id="EpicGames-price<? echo $game['id']; ?>" value="<? echo $shops['EpicGames_price']; ?>" placeholder="Цена">
+                                                    <input type="text" id="EpicGames-link<? echo $game['id']; ?>" value="<? echo $shops['EpicGames_link']; ?>" placeholder="Ссылка">
+                                                </div>
+                                            </div>
+
+                                            <div class="adding-shop">
+                                                <div class="switch">
+                                                    <label>SteamPay:</label>
+                                                    <?
+                                                    if ($shops['SteamPay_price'] == NULL) :
+                                                    ?>
+                                                        <input type="checkbox" id="toggleSteamPay<? echo $game['id']; ?>" />
+                                                    <?
+                                                    else :
+                                                    ?>
+                                                        <input type="checkbox" id="toggleSteamPay<? echo $game['id']; ?>" checked />
+                                                    <?
+                                                    endif;
+                                                    ?>
+                                                    <label for="toggleSteamPay<? echo $game['id']; ?>"></label>
+                                                </div>
+
+                                                <div class="inputSteamPay<? echo $game['id']; ?>">
+                                                    <input type="number" id="SteamPay-price<? echo $game['id']; ?>" value="<? echo $shops['SteamPay_price']; ?>" placeholder="Цена">
+                                                    <input type="text" id="SteamPay-link<? echo $game['id']; ?>" value="<? echo $shops['SteamPay_link']; ?>" placeholder="Ссылка">
+                                                </div>
+                                            </div>
+
+                                            <div class="adding-shop">
+                                                <div class="switch">
+                                                    <label>Sous-Buy:</label>
+                                                    <?
+                                                    if ($shops['SousBuy_price'] == NULL) :
+                                                    ?>
+                                                        <input type="checkbox" id="toggleSous-Buy<? echo $game['id']; ?>" />
+                                                    <?
+                                                    else :
+                                                    ?>
+                                                        <input type="checkbox" id="toggleSous-Buy<? echo $game['id']; ?>" checked />
+                                                    <?
+                                                    endif;
+                                                    ?>
+                                                    <label for="toggleSous-Buy<? echo $game['id']; ?>"></label>
+                                                </div>
+                                                <div class="inputSous-Buy<? echo $game['id']; ?>">
+                                                    <input type="number" id="Sous-Buy-price<? echo $game['id']; ?>" value="<? echo $shops['SousBuy_price']; ?>" placeholder="Цена">
+                                                    <input type="text" id="Sous-Buy-link<? echo $game['id']; ?>" value="<? echo $shops['SousBuy_link']; ?>" placeholder="Ссылка">
+                                                </div>
+                                            </div>
+
+                                            <div class="adding-shop">
+                                                <div class="switch">
+                                                    <label>Zaka-Zaka:</label>
+                                                    <?
+                                                    if ($shops['ZakaZAka_price'] == NULL) :
+                                                    ?>
+                                                        <input type="checkbox" id="toggleZaka-Zaka<? echo $game['id']; ?>" />
+                                                    <?
+                                                    else :
+                                                    ?>
+                                                        <input type="checkbox" id="toggleZaka-Zaka<? echo $game['id']; ?>" checked />
+                                                    <?
+                                                    endif;
+                                                    ?>
+                                                    <label for="toggleZaka-Zaka<? echo $game['id']; ?>"></label>
+                                                </div>
+                                                <div class="inputZaka-Zaka<? echo $game['id']; ?>">
+                                                    <input type="number" id="Zaka-Zaka-price<? echo $game['id']; ?>" value="<? echo $shops['ZakaZAka_price']; ?>" placeholder="Цена">
+                                                    <input type="text" id="Zaka-Zaka-link<? echo $game['id']; ?>" value="<? echo $shops['ZakaZaka_link']; ?>" placeholder="Ссылка">
+                                                </div>
+                                            </div>
+                                        </section>
+
+                                        <script>
+                                            let switcherSteam<? echo $game['id']; ?> = document.querySelector('#toggleSteam<? echo $game['id']; ?>');
+                                            let switcherGabeStore<? echo $game['id']; ?> = document.querySelector('#toggleGabeStore<? echo $game['id']; ?>');
+                                            let switcherEpicGames<? echo $game['id']; ?> = document.querySelector('#toggleEpicGames<? echo $game['id']; ?>');
+                                            let switcherSteamPay<? echo $game['id']; ?> = document.querySelector('#toggleSteamPay<? echo $game['id']; ?>');
+                                            let switcherSous_Buy<? echo $game['id']; ?> = document.querySelector('#toggleSous-Buy<? echo $game['id']; ?>');
+                                            let switcherZaka_Zaka<? echo $game['id']; ?> = document.querySelector('#toggleZaka-Zaka<? echo $game['id']; ?>');
+
+                                            let inputSteam<? echo $game['id']; ?> = document.querySelector('.inputSteam<? echo $game['id']; ?>');
+                                            let inputGabeStore<? echo $game['id']; ?> = document.querySelector('.inputGabeStore<? echo $game['id']; ?>');
+                                            let inputEpicGames<? echo $game['id']; ?> = document.querySelector('.inputEpicGames<? echo $game['id']; ?>');
+                                            let inputSteamPay<? echo $game['id']; ?> = document.querySelector('.inputSteamPay<? echo $game['id']; ?>');
+                                            let inputSous_Buy<? echo $game['id']; ?> = document.querySelector('.inputSous-Buy<? echo $game['id']; ?>');
+                                            let inputZaka_Zaka<? echo $game['id']; ?> = document.querySelector('.inputZaka-Zaka<? echo $game['id']; ?>');
+
+                                            if (switcherSteam<? echo $game['id']; ?>.checked) {
+                                                inputSteam<? echo $game['id']; ?>.style.display = 'block';
+                                            } else {
+                                                inputSteam<? echo $game['id']; ?>.style.display = 'none';
+                                            }
+                                            if (switcherGabeStore<? echo $game['id']; ?>.checked) {
+                                                inputGabeStore<? echo $game['id']; ?>.style.display = 'block';
+                                            } else {
+                                                inputGabeStore<? echo $game['id']; ?>.style.display = 'none';
+                                            }
+                                            if (switcherEpicGames<? echo $game['id']; ?>.checked) {
+                                                inputEpicGames<? echo $game['id']; ?>.style.display = 'block';
+                                            } else {
+                                                inputEpicGames<? echo $game['id']; ?>.style.display = 'none';
+                                            }
+                                            if (switcherSteamPay<? echo $game['id']; ?>.checked) {
+                                                inputSteamPay<? echo $game['id']; ?>.style.display = 'block';
+                                            } else {
+                                                inputSteamPay<? echo $game['id']; ?>.style.display = 'none';
+                                            }
+                                            if (switcherSous_Buy<? echo $game['id']; ?>.checked) {
+                                                inputSous_Buy<? echo $game['id']; ?>.style.display = 'block';
+                                            } else {
+                                                inputSous_Buy<? echo $game['id']; ?>.style.display = 'none';
+                                            }
+                                            if (switcherZaka_Zaka<? echo $game['id']; ?>.checked) {
+                                                inputZaka_Zaka<? echo $game['id']; ?>.style.display = 'block';
+                                            } else {
+                                                inputZaka_Zaka<? echo $game['id']; ?>.style.display = 'none';
+                                            }
+
+
+                                            switcherSteam<? echo $game['id']; ?>.addEventListener('click', () => {
+                                                if (inputSteam<? echo $game['id']; ?>.style.display === 'none') {
+                                                    inputSteam<? echo $game['id']; ?>.style.display = 'block';
+                                                } else if (inputSteam<? echo $game['id']; ?>.style.display === 'block') {
+                                                    inputSteam<? echo $game['id']; ?>.style.display = 'none';
+                                                }
+                                            })
+
+                                            switcherGabeStore<? echo $game['id']; ?>.addEventListener('click', () => {
+                                                if (inputGabeStore<? echo $game['id']; ?>.style.display === 'none') {
+                                                    inputGabeStore<? echo $game['id']; ?>.style.display = 'block';
+                                                } else if (inputGabeStore<? echo $game['id']; ?>.style.display === 'block') {
+                                                    inputGabeStore<? echo $game['id']; ?>.style.display = 'none';
+                                                }
+                                            })
+
+                                            switcherEpicGames<? echo $game['id']; ?>.addEventListener('click', () => {
+                                                if (inputEpicGames<? echo $game['id']; ?>.style.display === 'none') {
+                                                    inputEpicGames<? echo $game['id']; ?>.style.display = 'block';
+                                                } else if (inputEpicGames<? echo $game['id']; ?>.style.display === 'block') {
+                                                    inputEpicGames<? echo $game['id']; ?>.style.display = 'none';
+                                                }
+                                            })
+
+                                            switcherSteamPay<? echo $game['id']; ?>.addEventListener('click', () => {
+                                                if (inputSteamPay<? echo $game['id']; ?>.style.display === 'none') {
+                                                    inputSteamPay<? echo $game['id']; ?>.style.display = 'block';
+                                                } else if (inputSteamPay<? echo $game['id']; ?>.style.display === 'block') {
+                                                    inputSteamPay<? echo $game['id']; ?>.style.display = 'none';
+                                                }
+                                            })
+
+                                            switcherSous_Buy<? echo $game['id']; ?>.addEventListener('click', () => {
+                                                if (inputSous_Buy<? echo $game['id']; ?>.style.display === 'none') {
+                                                    inputSous_Buy<? echo $game['id']; ?>.style.display = 'block';
+                                                } else if (inputSous_Buy<? echo $game['id']; ?>.style.display === 'block') {
+                                                    inputSous_Buy<? echo $game['id']; ?>.style.display = 'none';
+                                                }
+                                            })
+
+                                            switcherZaka_Zaka<? echo $game['id']; ?>.addEventListener('click', () => {
+                                                if (inputZaka_Zaka<? echo $game['id']; ?>.style.display === 'none') {
+                                                    inputZaka_Zaka<? echo $game['id']; ?>.style.display = 'block';
+                                                } else if (inputZaka_Zaka<? echo $game['id']; ?>.style.display === 'block') {
+                                                    inputZaka_Zaka<? echo $game['id']; ?>.style.display = 'none';
+                                                }
+                                            })
+                                        </script>
+
                                         <div class="article-button">
                                             <label id="edit_game_message"></label>
                                             <button class="btn add-button" id="edit_game" onclick="edit_game_by_id(<? echo $game['id']; ?>)">Сохранить</button>
@@ -516,8 +920,8 @@
                             <!-- /МОДАЛЬНОЕ ОКНО С ФОРМОЙ РЕДАКТИРОВАНИЯ -->
 
 
-                            <td><button class="delete delete-game" onclick="delete_game(<? echo $game['id']; ?>, '<? echo $game['name_game']; ?>')"><span>Удалить</span>
-                                    <img src="/img/delete.png" alt="Редактировать"></button></td>
+                            <td><button class="delete delete-game" onclick="delete_game(<? echo $game['id']; ?>, '<? echo $game['name_game']; ?>', 0)"><span>Удалить</span>
+                                    <img src="/img/delete.png" alt="Удалить"></button></td>
                         </tr>
 
                     <? endforeach; ?>

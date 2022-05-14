@@ -1,6 +1,5 @@
 function add_new_comment(){
-    let user_login = $("#user_login").val().trim();
-    let user_avatar = $("#user_avatar").val().trim();
+    let user_id = $("#user_id").val().trim();
     let article_id = $("#article_id").val().trim();
     let comment = $("#comment").val().trim();
     let error = 0;
@@ -22,10 +21,9 @@ function add_new_comment(){
             cache: false,
             data: {
 
-                user_login: user_login,
+                user_id: user_id,
                 comment: comment,
                 article_id: article_id,
-                user_avatar: user_avatar
 
             },
             beforeSend: function () {

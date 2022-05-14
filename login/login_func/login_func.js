@@ -142,11 +142,11 @@ function registration() {
                 },
                 beforeSend: function () {
 
-                    $("#reg_btn").prop("disabled", true);
+                    $("#reg-btn").prop("disabled", true);
 
                 },
                 success: function (data) {
-                    $("#reg_btn").prop("disabled", false);
+                    $("#reg-btn").prop("disabled", false);
 
                     if (!data) {
                         alert("Операция не выполнена, попробуйте позже.");

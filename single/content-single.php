@@ -13,11 +13,130 @@ $comments_count = get_comments_count_by_id($_GET['id']);
                     <li class="breadcrumb-item"><a href="#" onclick="window.history.back();">Назад</a></li>
                 </ol>
 
-                <? if ($user['admin'] == "1") : ?>
+                <? if ($admin == 1) : ?>
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><button class="admin-btn">Редактировать</button></li>
-                        <li class="breadcrumb-item"><button class="admin-btn">Добавить на слайдер</button></li>
-                        <li class="breadcrumb-item"><button class="admin-btn">Удалить</button></li>
+                        <li class="breadcrumb-item"><button class="admin-btn openModalEdit openModalEdit<? echo $single['id']; ?>">Редактировать</button>
+                            <!-- МОДАЛЬНОЕ ОКНО С ФОРМОЙ РЕДАКТИРОВАНИЯ -->
+                            <dialog class="ModalEdit ModalEdit<? echo $single['id']; ?>" style="width: 60%;">
+                                <div class="Modal-inner">
+
+                                    <h2>Редактировать статью</h2>
+
+                                    <form class="article-form" id="edit_article_form" onsubmit="return false" method="POST">
+                                        <div class="adding">
+                                            <label for="edit_article_title">Заголовок статьи:</label>
+
+                                            <input type="text" name="title" id="edit_article_title<? echo $single['id']; ?>" value="<? echo $single['title']; ?>">
+                                        </div>
+
+                                        <?
+                                        $prewie_text = $single['prewie_text'];
+
+                                        $prewie_text = str_replace('"', '&quot;', $prewie_text);
+                                        ?>
+
+                                        <div class="adding">
+                                            <label for="edit_prewie_text">Превью текс:</label>
+                                            <textarea name="preview" id="edit_prewie_text<? echo $single['id']; ?>" cols="30" rows="10"><? echo $prewie_text; ?></textarea>
+                                        </div>
+
+                                        <?
+                                        $full_text = $single['full_text'];
+                                        $full_text = str_replace('"', '&quot;', $full_text);
+                                        ?>
+
+                                        <div class="adding">
+                                            <label for="edit_full_text">Полный текст статьи:</label>
+                                            <textarea name="full-text" id="edit_full_text<? echo $single['id']; ?>" cols="40" rows="10"><? echo $full_text; ?></textarea>
+                                        </div>
+
+                                        <div class="adding">
+                                            <label for="edit_article_img">Изображение для превью:</label>
+                                            <input type="text" name="image" id="edit_article_img<? echo $single['id']; ?>" value="<? echo $single['img']; ?>">
+                                        </div>
+
+                                        <div class="adding">
+                                            <label for="edit_game_id">Игра:</label>
+                                            <select name="game" id="edit_game_id<? echo $single['id']; ?>">
+                                                <option value="13">Другое</option>
+                                                <? $games = sort_games_by_name_game("0,99999");
+                                                foreach ($games as $game) :
+                                                    if ($game['id'] == 13) :
+                                                        continue;
+                                                    else :
+                                                        if ($game['id'] == $single['games_id']) {
+                                                ?>
+                                                            <option value="<? echo $game['id'] ?>" selected><? echo $game['name_game'] ?></option>
+
+                                                        <?
+                                                        } else {
+
+                                                        ?>
+                                                            <option value="<? echo $game['id'] ?>"><? echo $game['name_game'] ?></option>
+
+                                                <?
+                                                        }
+                                                    endif;
+                                                endforeach;
+                                                ?>
+                                            </select>
+                                        </div>
+
+                                        <div class="adding">
+                                            <label for="edit_slider<? echo $single['id']; ?>">Добавить на слайдер:</label>
+                                            <select name="slider" id="edit_slider<? echo $single['id']; ?>">
+                                                <? if ($single['slider'] == 1) : ?>
+                                                    <option value="1" selected>Да</option>
+                                                    <option value="0">Нет</option>
+                                                <? else : ?>
+                                                    <option value="1">Да</option>
+                                                    <option value="0" selected>Нет</option>
+                                                <? endif; ?>
+                                            </select>
+                                        </div>
+
+                                        <div class="adding">
+                                            <label for="edit_mailing<? echo $single['id']; ?>">Добавить в недельную рассылку:</label>
+                                            <select name="mailing" id="edit_mailing<? echo $single['id']; ?>">
+                                                <? if ($single['mailing'] == 1) : ?>
+                                                    <option value="1" selected>Да</option>
+                                                    <option value="0">Нет</option>
+                                                <? else : ?>
+                                                    <option value="1">Да</option>
+                                                    <option value="0" selected>Нет</option>
+                                                <? endif; ?>
+                                            </select>
+                                        </div>
+
+                                        <div class="article-button">
+                                            <label id="edit_article_message<? echo $single['id']; ?>"></label>
+                                            <button class="btn add-button" id="edit_article<? echo $single['id']; ?>" onclick="edit_article_by_id(<? echo $single['id']; ?>)">Сохранить</button>
+
+                                        </div>
+                                    </form>
+
+                                    <button class="btn add-button closeModalEdit closeModalEdit<? echo $single['id']; ?>">Закрыть</button>
+                            </dialog>
+                            <script>
+                                const openModalEdit<? echo $single['id']; ?> = document.querySelector('.openModalEdit<? echo $single['id']; ?>');
+                                const closeModalEdit<? echo $single['id']; ?> = document.querySelector('.closeModalEdit<? echo $single['id']; ?>');
+                                const ModalEdit<? echo $single['id']; ?> = document.querySelector('.ModalEdit<? echo $single['id']; ?>');
+
+                                openModalEdit<? echo $single['id']; ?>.addEventListener('click', () => {
+                                    ModalEdit<? echo $single['id']; ?>.showModal()
+                                })
+
+                                closeModalEdit<? echo $single['id']; ?>.addEventListener('click', () => {
+                                    ModalEdit<? echo $single['id']; ?>.close()
+                                })
+
+                                ModalEdit<? echo $single['id']; ?>.addEventListener('click', (e) => {
+                                    if (e.target === ModalEdit<? echo $single['id']; ?>) ModalEdit<? echo $single['id']; ?>.close()
+                                })
+                            </script>
+                        </li>
+                        <!-- /МОДАЛЬНОЕ ОКНО С ФОРМОЙ РЕДАКТИРОВАНИЯ -->
+                        <li class="breadcrumb-item"><button class="admin-btn" onclick="delete_article(<? echo $single['id']; ?>, '<? echo $single['title']; ?>',1)">Удалить</button></li>
                     </ol>
                 <? endif; ?>
             </section>
@@ -206,13 +325,9 @@ $comments_count = get_comments_count_by_id($_GET['id']);
                             <div class="input-comment">
                                 <form>
                                     <div class="field">
-                                        <? if ($user['admin'] == "0") : ?>
-                                            <input type="text" id="user_login" style="display: none;" value="<? echo $user['login']; ?>">
-                                        <? elseif ($user['admin'] == "1") : ?>
-                                            <input type="text" id="user_login" style="display: none;" value="Администратор: <? echo $user['login']; ?>">
-                                        <? endif; ?>
-                                        <input type="text" id="user_avatar" style="display: none;" value="<? echo $user['user_avatar'] ?>">
-                                        <input type="text" id="article_id" style="display: none;" value="<? echo $_GET['id'] ?>">
+
+                                        <input type="text" id="article_id" style="display: none;" value="<? echo $_GET['id']; ?>">
+                                        <input type="text" id="user_id" style="display: none;" value="<? echo $_SESSION['user_id']; ?>">
                                         <textarea class="comment-input" id="comment" placeholder="Оставьте ваше мнение в комментариях"></textarea>
                                         <div style="color: red;" id="comment_error"></div>
                                     </div>
@@ -238,24 +353,31 @@ $comments_count = get_comments_count_by_id($_GET['id']);
                     if ($comments_count > 0) :
                         $comments = get_comments_by_id($_GET['id']);
                         foreach ($comments as $comment) :
+                            
+                            $count_users = get_count_users($comment['user_id']);
+                            if($count_users > 0){
+
+                                $user_comment = get_ava_by_login($comment['user_id']);
+    
+                                $user_comment_admin = check_admin($user_comment['id']);
                     ?>
                             <div class="comments-container">
                                 <div class="comment-item-avatar">
                                     <div class="comment-avatar">
-                                        <? if ($comment['user_avatar'] == NULL) : ?>
+                                        <? if ($user_comment['user_avatar'] == NULL) : ?>
                                             <img src="/img/svg/login.png" alt="Аватар пользователя">
                                         <? else : ?>
-                                            <img src="<? echo $comment['user_avatar']; ?>" alt="Аватар пользователя">
+                                            <img src="<? echo $user_comment['user_avatar']; ?>" alt="Аватар пользователя">
                                         <? endif; ?>
                                     </div>
                                 </div>
 
                                 <div class="comment">
                                     <div class="comments-item-header">
-                                        <? if (strpos($comment['user_login'], "Администратор:") !== false) : ?>
-                                            <span class="comments-author" style="color: red;"><? echo $comment['user_login']; ?></span>
+                                        <? if ($user_comment_admin == 1) : ?>
+                                            <span class="comments-author" style="color: red;"><? echo "Администратор: " . $user_comment['login']; ?></span>
                                         <? else : ?>
-                                            <span class="comments-author"><? echo $comment['user_login']; ?></span>
+                                            <span class="comments-author"><? echo $user_comment['login']; ?></span>
                                         <? endif; ?>
                                         <span class="comments-item-timestamp">
                                             <? echo $comment['publication_date']; ?>
@@ -273,6 +395,9 @@ $comments_count = get_comments_count_by_id($_GET['id']);
                             </div>
 
                         <?
+                        }else{
+                            continue;
+                        }
                         endforeach;
                     else :
                         ?>

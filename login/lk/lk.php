@@ -1,4 +1,3 @@
-
 <div class="container content-lk">
     <div class="user-profile-header">
         <div class="flexbox-container">
@@ -23,24 +22,27 @@
                 </div>
                 <div class="flex-item">
                     <div>Логин: </div>
-                    <? if ($user['admin'] == "0") : ?>
+                    <? if ($admin == 0) : ?>
                         <div><span class="login"><? echo $user['login']; ?></span></div>
-                    <? elseif ($user['admin'] == "1") : ?>
+                    <? elseif ($admin == 1) : ?>
                         <div><span class="login"><? echo $user['login']; ?><sup class="sup">Админ</sup></span></div>
                     <? endif; ?>
                 </div>
             </div>
             <div class="flex-item">
+            
                 <div class="mailing mail-lk">
                     <h4>Подписывайтесь на нашу рассылку!</h4>
                     <p class="undt-p">И будьте в курсе свежих новостей каждую неделю</p>
-                    <form action="" class="form-mailing">
-                        <input type="email" class="form-control" placeholder="Ваш e-mail">
-
-                        <button type="submit" class="btn">Подписаться</button>
+                    <form class="form-mailing" method="POST">
+                        <input type="text" class="form-control" id="mailing_login_lk" value="<? echo $user['id']; ?>" style="display: none;">
+                        <input type="email" class="form-control" id="mailing_email_lk" placeholder="Ваш e-mail">
+                        <label for="mailing_email_lk" id="mailing_email_lk_message" style="color: red;"></label>
+                        <button type="submit" class="btn" id="mailing_lk">Подписаться</button>
                     </form>
                     <p class="footnote">Нажимая на кнопку, вы даете согласие на обработку персональных данных и политику конфиденциальности.</p>
                 </div>
+            
             </div>
         </div>
     </div>
@@ -52,7 +54,7 @@
                     <span class="text">Данные</span>
                 </a>
             </span>
-            <? if ($user['admin'] == "1") : ?>
+            <? if ($admin == 1) : ?>
                 <span class="lk-nav-item">
                     <a class="tab" href="./?page=admin">
                         <span class="text">Панель Администратора</span>
@@ -124,12 +126,12 @@
                                     <label for="file-submit" class="submit-btn">
                                         <input type="submit" id="file-submit" value="Загрузить">
                                     </label>
-                                    <label class="form-label" id="file_message" ></label><br>
+                                    <label class="form-label" id="file_message"></label><br>
 
                                 </span>
                             </div>
                         </form>
-                       
+
                     </div>
                 </div>
             </div>

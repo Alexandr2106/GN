@@ -15,7 +15,12 @@ if (isset($_GET['id'])) {
     }
 }
 session_start();
-$user = get_user($_SESSION['user_id']);
+if (isset($_SESSION['user_id'])) {
+    $user = get_user($_SESSION['user_id']);
+    $admin = check_admin($user['id']);
+}else{
+    session_destroy();
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -190,7 +195,7 @@ $user = get_user($_SESSION['user_id']);
 
             require "./login/password_recovery.php";
 
-        elseif (isset($_GET['page']) && $_GET['page'] == "admin" && isset($_SESSION['user_id']) && $user['admin'] == "1") :
+        elseif (isset($_GET['page']) && $_GET['page'] == "admin" && isset($_SESSION['user_id']) && $admin == 1) :
 
             require "./login/admin-panel/admin.php";
         else :
@@ -240,7 +245,7 @@ $user = get_user($_SESSION['user_id']);
     <script src="./single/comments_controller.js"></script>
     <script src="./login/lk/lk_func.js"></script>
     <script src="./login/admin-panel/admin_func.js"></script>
-
+    <script src="./login/admin-panel/mailing/mailing.js"></script>
     <script src="search.js"></script>
 </body>
 
