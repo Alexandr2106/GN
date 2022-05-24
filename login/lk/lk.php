@@ -30,19 +30,36 @@
                 </div>
             </div>
             <div class="flex-item">
-            
-                <div class="mailing mail-lk">
-                    <h4>Подписывайтесь на нашу рассылку!</h4>
-                    <p class="undt-p">И будьте в курсе свежих новостей каждую неделю</p>
-                    <form class="form-mailing" method="POST">
-                        <input type="text" class="form-control" id="mailing_login_lk" value="<? echo $user['id']; ?>" style="display: none;">
-                        <input type="email" class="form-control" id="mailing_email_lk" placeholder="Ваш e-mail">
-                        <label for="mailing_email_lk" id="mailing_email_lk_message" style="color: red;"></label>
-                        <button type="submit" class="btn" id="mailing_lk">Подписаться</button>
-                    </form>
-                    <p class="footnote">Нажимая на кнопку, вы даете согласие на обработку персональных данных и политику конфиденциальности.</p>
-                </div>
-            
+                <?
+                $result = mailing_check($user['email']);
+                if ($result == 0) {
+                ?>
+
+                    <div class="mailing mail-lk">
+                        <h4>Подписывайтесь на нашу рассылку!</h4>
+                        <p class="undt-p">И будьте в курсе свежих новостей каждую неделю</p>
+                        <form class="form-mailing" method="POST">
+                            <input type="text" class="form-control" id="mailing_login_lk" value="<? echo $user['id']; ?>" style="display: none;">
+                            <input type="email" class="form-control" id="mailing_email_lk" placeholder="Ваш e-mail">
+                            <label for="mailing_email_lk" id="mailing_email_lk_message" style="color: red;"></label>
+                            <button type="submit" class="btn" id="mailing_lk">Подписаться</button>
+                        </form>
+                        <p class="footnote">Нажимая на кнопку, вы даете согласие на обработку персональных данных и политику конфиденциальности.</p>
+                    </div>
+                <? } else { ?>
+                    <!-- ФОМА ОТПИСКИ -->
+                    <div class="mailing mail-unsubscribe">
+                        <h4>Вы подписаны на нашу рассылку!</h4>
+                        <p class="undt-p">Хотите отписаться?</p>
+                        <form class="form-mailing" method="POST">
+                            <input type="text" class="form-control" id="user_mailing_email" value="<? echo $user['email']; ?>" style="display: none;">
+                            <button type="submit" class="btn" id="mailing_unsubscribe">Отписаться</button>
+                            <label for="mailing_unsubscribe" id="mailing_unsubscribe_message"></label>
+                        </form>
+                        <p class="footnote">Нажимая на кнопку, вы даете согласие на обработку персональных данных и политику конфиденциальности.</p>
+                    </div>
+                    <!-- /ФОМА ОТПИСКИ -->
+                <? } ?>
             </div>
         </div>
     </div>
@@ -56,7 +73,7 @@
             </span>
             <? if ($admin == 1) : ?>
                 <span class="lk-nav-item">
-                    <a class="tab" href="./?page=admin">
+                    <a class="tab" href="./?page=admin&go=0&page_num=1">
                         <span class="text">Панель Администратора</span>
                     </a>
                 </span>
@@ -117,17 +134,17 @@
                                 <span class="file">
                                     <!--<input title="Выбрать изображение" type="file" accept=".jpg,.jpeg,.gif,.png,.webp" name="image" class="file-inputs" style="left: -212px; top: -9px;">-->
                                     <input type="text" id="login_for_file" style="display: none;" class="form-control" value="<? echo $user['login']; ?>">
-                                    <input name="file" type="file" accept=".jpg,.jpeg,.png" name="file" id="input__file" class="input input__file" multiple>
-                                    <label for="input__file" class="input__file-button">
+                                    <input name="file" type="file" accept=".jpg,.jpeg,.png" id="input__file" class="input input__file" multiple>
+                                    <button><img class="input__file-icon" src="/img/download.png" alt="Выбрать файл" width="25"></button>
+                                    <!--<label for="input__file" class="input__file-button">
                                         <span class="input__file-icon-wrapper"><img class="input__file-icon" src="/img/download.png" alt="Выбрать файл" width="25"></span>
                                         <span class="input__file-button-text">Выберите файл</span>
-                                    </label>
+                                    </label>-->
 
                                     <label for="file-submit" class="submit-btn">
                                         <input type="submit" id="file-submit" value="Загрузить">
                                     </label>
-                                    <label class="form-label" id="file_message"></label><br>
-
+                                    <label class="form-label" id="file_message"></label>
                                 </span>
                             </div>
                         </form>

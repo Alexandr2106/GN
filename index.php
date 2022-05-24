@@ -14,11 +14,25 @@ if (isset($_GET['id'])) {
         }
     }
 }
+if (isset($_GET['post_id'])) {
+    if (!isset($_COOKIE['PostViewsCookie'])) {
+        setcookie("PostViewsCookie", $_GET['post_id'], time() + 900);
+        postViews_update($_GET['post_id']);
+    } else if (isset($_COOKIE['PostViewsCookie'])) {
+        if (stristr($_COOKIE['PostViewsCookie'], $_GET['post_id']) == false) {
+            $arr =  $_COOKIE['PostViewsCookie'];
+            setcookie("PostViewsCookie", "", time() - 900);
+            $arr .= "-" . $_GET['post_id'];
+            setcookie("PostViewsCookie", $arr, time() + 900);
+            postViews_update($_GET['post_id']);
+        }
+    }
+}
 session_start();
 if (isset($_SESSION['user_id'])) {
     $user = get_user($_SESSION['user_id']);
     $admin = check_admin($user['id']);
-}else{
+} else {
     session_destroy();
 }
 ?>
@@ -73,7 +87,7 @@ if (isset($_SESSION['user_id'])) {
                                 <a class="nav-link" href="./?page=news&go=0&page_num=1">НОВОСТИ</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="./?page=help">ПОМОЩЬ</a>
+                                <a class="nav-link" href="./?page=help&go=0&page_num=1">ПОМОЩЬ</a>
                             </li>
                         </ul>
 
@@ -93,15 +107,27 @@ if (isset($_SESSION['user_id'])) {
                                         <div class="ssearch_modal">
                                             <div class="ssearch_mod">
                                                 <div class="ssearch_in">
-                                                    <div class="ssearch_inner">
-                                                        <input type="text" id="search" class="ssearch_inp" placeholder="Найти игру..." required>
-                                                    </div>
+                                                    <form id="search_form">
+                                                        <div class="ssearch_inner">
+
+                                                            <input type="text" id="search" class="ssearch_inp" placeholder="Найти игру..." required>
+
+                                                        </div>
+
+                                                        <div class="search_tag">
+                                                            <input label="Игры" type="radio" value="s-games" name="tag" checked>
+                                                            <input label="Новости" type="radio" value="s-news" name="tag">
+                                                            <input label="Форумы" type="radio" value="s-help" name="tag">
+                                                        </div>
+                                                    </form>
                                                 </div>
 
                                                 <!-- КОНТЕНТ ОТОБРАЖАЕМЫЙ В ПОИСКЕ -->
-                                                <div class="ssearch_container">
+                                                <div class="ssearch_container" id="ssearch">
 
                                                 </div>
+
+                                     
                                             </div>
                                         </div>
                                     </div>
@@ -198,6 +224,14 @@ if (isset($_SESSION['user_id'])) {
         elseif (isset($_GET['page']) && $_GET['page'] == "admin" && isset($_SESSION['user_id']) && $admin == 1) :
 
             require "./login/admin-panel/admin.php";
+
+        elseif (isset($_GET['page']) && $_GET['page'] == "adding-post") :
+
+            require "./help/adding-post.php";
+
+        elseif (isset($_GET['page']) && $_GET['page'] == "post") :
+
+            require "./help/post.php";
         else :
             require "./slider/slider-home.php";
             require "./news/content-home.php";
@@ -210,10 +244,9 @@ if (isset($_SESSION['user_id'])) {
             <div class="container-xxl cfoot">
                 <table class="table social" style="color: #ffffff;">
                     <tr>
-                        <td><a href=""><img src="img/svg/vk.svg" alt="" style="width: 24px; height: 24px;"></a></td>
-                        <td><a href=""><img src="img/svg/tg.svg" alt="" style="width: 24px; height: 24px;"></a></td>
-                        <td><a href=""><img src="img/svg/ins.svg" alt="" style="width: 24px; height: 24px;"></a></td>
-                        <td><a href=""><img src="img/svg/face.svg" alt="" style="width: 24px; height: 24px;"></a></td>
+                        <td><a href="" target="_blank"><img src="img/svg/vk.svg" alt="" style="width: 24px; height: 24px;"></a></td>
+                        <td><a href="" target="_blank"><img src="img/svg/tg.svg" alt="" style="width: 24px; height: 24px;"></a></td>
+                        <td><a href="https://discord.gg/jAzpUmug" target="_blank"><img src="img/svg/discord.png" alt="" style="width: 24px; height: 24px;"></a></td>
                     </tr>
                 </table>
 
@@ -247,6 +280,8 @@ if (isset($_SESSION['user_id'])) {
     <script src="./login/admin-panel/admin_func.js"></script>
     <script src="./login/admin-panel/mailing/mailing.js"></script>
     <script src="search.js"></script>
+    <script src="./help/forum_func.js"></script>
+    <script src="./search.js"></script>
 </body>
 
 </html>

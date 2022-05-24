@@ -29,9 +29,8 @@
                     <? endif; ?>
                 </div>
             </div>
-            <div class="flex-item">
-
-                <button class="btn openModalMailing" style="background-color: red; color: white;">Отправить недельную рассылку</button>
+            <div class="flex-item send-mailing">
+                <button class="btn openModalMailing">Отправить недельную рассылку</button>
                 <label id="send_mailing_messege"></label>
                 <!-- МОДАЛЬНОЕ ОКНО С ФОРМОЙ ОТПРАВКИ НЕДЕЛЬНОЙ РАССЫЛКИ -->
                 <dialog class="ModalMailing" style="width: 60%;">
@@ -40,23 +39,23 @@
                         <h2>Статьи в рассылке на этой неделе:</h2>
 
                         <form class="article-form" method="POST">
-                            
-                                <?
-                                $results = add_mailing_articles();
-                                //print_r($results);
-                                foreach ($results as $result) :
-                                ?>
 
-                                    <div class="adding">
-                                        <label><? echo $result['id']; ?></label>
-                                        <label><? echo $result['title']; ?></label>
-                                        <label><? echo $result['pubdate']; ?></label>
-                                    </div>
+                            <?
+                            $results = add_mailing_articles();
+                            //print_r($results);
+                            foreach ($results as $result) :
+                            ?>
 
-                                    
+                                <div class="adding">
+                                    <label><? echo $result['id']; ?></label>
+                                    <label><? echo $result['title']; ?></label>
+                                    <label><? echo $result['pubdate']; ?></label>
+                                </div>
 
-                                <? endforeach; ?>
-                            
+
+
+                            <? endforeach; ?>
+
                         </form>
                         <label id="send_mailing_stay" style="color:brown"></label>
                         <button class="btn add-button" id="send_mailing">Отправить</button>
@@ -81,7 +80,6 @@
                     })
                 </script>
                 <!-- /МОДАЛЬНОЕ ОКНО С ФОРМОЙ ОТПРАВКИ НЕДЕЛЬНОЙ РАССЫЛКИ -->
-
             </div>
         </div>
     </div>
@@ -102,7 +100,7 @@
 
 
         <div class="admin-layout">
-            <div class="left-side-news">
+            <div class="left-side-admin">
                 <div class="blok-header">
                     Новости
                     <sup class="sup">10 последних статей</sup>
@@ -920,8 +918,11 @@
                             <!-- /МОДАЛЬНОЕ ОКНО С ФОРМОЙ РЕДАКТИРОВАНИЯ -->
 
 
-                            <td><button class="delete delete-game" onclick="delete_game(<? echo $game['id']; ?>, '<? echo $game['name_game']; ?>', 0)"><span>Удалить</span>
-                                    <img src="/img/delete.png" alt="Удалить"></button></td>
+                            <td>
+                                <button class="delete delete-game" onclick="delete_game(<? echo $game['id']; ?>, '<? echo $game['name_game']; ?>', 0)"><span>Удалить</span>
+                                    <img src="/img/delete.png" alt="Удалить">
+                                </button>
+                            </td>
                         </tr>
 
                     <? endforeach; ?>
@@ -929,8 +930,242 @@
             </div>
         </div>
 
-        <!--<div class="cap">
-            <span>Последние 10 добавленых новостей и игр</span>
-        </div>-->
+        <div class="questions">
+            <div class="blok-header">
+                Вопросы
+                <sup class="sup">Все вопросы на сайте</sup>
+            </div>
+
+            <table class="admin-panel-quest">
+
+                <?php
+
+                $limit_start = 0;
+                $limit_end = 10;
+                if (isset($_GET['go'])) {
+                    $limit_start += $_GET['go'];
+                }
+
+                $posts = get_unactiv_posts("$limit_start,$limit_end");
+                if ($posts == 0) {
+                ?>
+                    <span>В данный момет тем на одобрение нет.</span>
+                <?
+
+                } else {
+                ?>
+                    <tr class="table-heading">
+                        <th>id</th>
+                        <th>Заголовок темы</th>
+                    </tr>
+                    <?
+                    foreach ($posts as $post) :
+                    ?>
+                        <tr>
+                            <td><? echo $post['id']; ?></td>
+                            <td><? echo $post['post_title']; ?></td>
+
+                            <td><button class="edit openModalEdit openModalPost<? echo $post['id']; ?>"><span>Посмотреть</span></button></td>
+                            <!-- МОДАЛЬНОЕ ОКНО С ФОРМОЙ РЕДАКТИРОВАНИЯ -->
+                            <dialog class="ModalPost ModalPost<? echo $post['id']; ?>" style="width: 60%;">
+                                <div class="Modal-inner">
+
+                                    <h2>Содержание поста</h2>
+
+                                    <form class="post-form" id="post_form" onsubmit="return false" method="POST">
+                                        <div class="adding">
+                                            <label for="edit_article_title">Заголовок поста:</label>
+                                            <div class="post-name"><? echo $post['post_title']; ?></div>
+                                        </div>
+
+                                        <div class="adding">
+                                            <label for="edit_full_text">Комментарий к посту:</label>
+                                            <div class="post-text"><? echo $post['post_comment']; ?></div>
+                                        </div>
+
+                                        <div class="adding">
+                                            <label for="edit_article_img">Изображения для поста:</label>
+                                            <div class="img-post">
+                                                <?
+                                                $user_id = $post['user_id'];
+                                                $post_id = $post['post_id'];
+                                                $fimg = "";
+                                                $wimage = "";
+                                                if (file_exists("./img/posts_img/" . $user_id . "/" . $post_id)) {
+                                                    $dir = "./img/posts_img/" . $user_id . "/" . $post_id; // Папка с изображениями
+                                                    $images = scandir($dir); // сканируем папку
+                                                    if ($images !== false) { // если нет ошибок при сканировании
+                                                        $images = preg_grep("/\.(?:png|gif|jpe?g)$/i", $images); // через регулярку создаем массив только изображений
+                                                        if (is_array($images)) { // если изображения найдены
+                                                            foreach ($images as $image) { // делаем проход по массиву
+                                                                $fimg .= "<img src='" . $dir . "/" . $path . htmlspecialchars(urlencode($image)) . "' alt='" . $dir . "' width='200px'/> ";
+                                                            }
+                                                            $wimage .= $fimg;
+                                                        } else { // иначе, если нет изображений
+                                                            $wimage .= "<div style='text-align:center'>Не обнаружено изображений в директории!</div>\n";
+                                                        }
+                                                    } else { // иначе, если директория пуста или произошла ошибка
+                                                        $wimage .= "<div style='text-align:center'>Директория пуста или произошла ошибка при сканировании.</div>";
+                                                    }
+                                                    echo $wimage; // выводим полученный результат
+                                                }
+                                                ?>
+                                            </div>
+                                        </div>
+
+                                        <div class="article-button">
+                                            <button class="edit add-quest" onclick="publishPost(<? echo $post['id']; ?>)"><span>Одобрить</span></button>
+                                        </div>
+                                    </form>
+
+                                    <button class="btn add-button closeModalPost<? echo $post['id']; ?>">Закрыть</button>
+                            </dialog>
+
+                            <script>
+                                const openModalPost<? echo $post['id']; ?> = document.querySelector('.openModalPost<? echo $post['id']; ?>');
+                                const closeModalPost<? echo $post['id']; ?> = document.querySelector('.closeModalPost<? echo $post['id']; ?>');
+                                const ModalPost<? echo $post['id']; ?> = document.querySelector('.ModalPost<? echo $post['id']; ?>');
+
+                                openModalPost<? echo $post['id']; ?>.addEventListener('click', () => {
+                                    ModalPost<? echo $post['id']; ?>.showModal()
+                                })
+
+                                closeModalPost<? echo $post['id']; ?>.addEventListener('click', () => {
+                                    ModalPost<? echo $post['id']; ?>.close()
+                                })
+
+                                ModalPost<? echo $post['id']; ?>.addEventListener('click', (e) => {
+                                    if (e.target === ModalPost<? echo $post['id']; ?>) ModalPost<? echo $post['id']; ?>.close()
+                                })
+                            </script>
+                            <!-- /МОДАЛЬНОЕ ОКНО С ФОРМОЙ РЕДАКТИРОВАНИЯ -->
+
+                            <!--<button class="edit add-quest" onclick="publishPost(<? //echo $post['id']; 
+                                                                                    ?>)"><span>Одобрить</span>
+                                    <img src="/img/approval.png" alt="Одобрить">
+                                </button>-->
+
+                            <td>
+                                <button class="delete delete-quest" onclick="deletePost(<? echo $post['id']; ?>)"><span>Удалить</span>
+                                    <img src="/img/delete.png" alt="Удалить">
+                                </button>
+                            </td>
+                        </tr>
+                    <? endforeach; ?>
+
+                    <div class="pages">
+                        <?php
+                        $count = get_count_unactiv_posts();
+                        $count_1 = $count;
+                        $count = $count;
+                        $go = 10;
+                        $page_count = 0;
+                        for ($i = 1;; $i++) {
+                            if ($count > 0) {
+                                $page_count++;
+                            } else {
+                                break;
+                            }
+                            $count -= 10;
+                        }
+                        $page_num = $_GET['page_num'];
+                        if ($page_count > 2) {
+                        ?>
+                            <!-- Шаг назад -->
+                            <? if ($_GET['go'] > 0) : ?>
+                                <a href="./?page=admin&go=<? print($_GET['go'] - 10); ?>&page_num=<? echo $_GET['page_num'] - 1; ?>">&#10094;</a>
+                            <? endif; ?>
+                            <?
+                            if ($page_num <= 4 || $page_count < 8) {
+                            ?>
+                                <a class="<?php if ($page_num == 1) {
+                                                echo " a-active";
+                                            } ?>" href="./?page=admin&go=0&page_num=1">1</a>
+                            <?
+                            } else {
+                            ?>
+                                <a class="<?php if ($page_num == 1) {
+                                                echo " a-active";
+                                            } ?>" href="./?page=admin&go=0&page_num=1">1</a>
+                                <p style="line-height: 32px;">...</p>
+                            <?
+                            }
+                            for ($i = 2; $i <= $page_count - 1; $i++) {
+                                if ($page_num > 4 && $page_num < ($page_count - 2)) {
+                                    if ($i <= ($page_num + 2) && $i >= ($page_num - 2)) {
+                                        echo "<a class='";
+                                        if ($page_num == $i) {
+                                            echo " a-active";
+                                        }
+                                        echo "' href='./?page=admin&go=$go&page_num=$i'>$i</a>";
+                                    }
+                                } elseif ($page_num <= 4) {
+                                    if ($i >= 2 && $i <= 6) {
+                                        echo "<a class='";
+                                        if ($page_num == $i) {
+                                            echo " a-active";
+                                        }
+                                        echo "' href='./?page=admin&go=$go&page_num=$i'>$i</a>";
+                                    }
+                                } elseif ($page_num > ($page_count - 3)) {
+                                    if ($i >= ($page_count - 5) && $i <= $page_count) {
+                                        echo "<a class='";
+                                        if ($page_num == $i) {
+                                            echo " a-active";
+                                        }
+                                        echo "' href='./?page=admin&go=$go&page_num=$i'>$i</a>";
+                                    }
+                                }
+                                $go += 10;
+                            }
+                            if ($page_num > ($page_count - 4) || $page_count < 8) {
+                            ?>
+                                <a class="<?php if ($page_num == $page_count) {
+                                                echo " a-active";
+                                            } ?>" href="./?page=admin&go=<? echo $go; ?>&page_num=<? echo $page_count; ?>"><? echo $page_count; ?></a>
+                            <?
+                            } else {
+                            ?>
+                                <p style="line-height: 32px;">...</p>
+                                <a class="<?php if ($page_num == $page_count) {
+                                                echo " a-active";
+                                            } ?>" href="./?page=admin&go=<? echo $go; ?>&page_num=<? echo $page_count; ?>"><? echo $page_count; ?></a>
+                            <?
+                            }
+                            //Шаг вперёд
+                            if (($_GET['go'] + 10) < $count_1) : ?>
+                                <a href="./?page=admin&go=<? print($_GET['go'] + 10); ?>&page_num=<? echo $_GET['page_num'] + 1; ?>">&#10095;</a>
+                            <? endif;
+                        } else {
+                            //Шаг назад
+                            if ($_GET['go'] > 0) :
+                            ?>
+                                <a href="./?page=admin&go=<? print($_GET['go'] - 10); ?>&page_num=<? echo $_GET['page_num'] - 1; ?>">&#10094;</a>
+                            <?
+                            endif;
+                            $go = 0;
+                            for ($i = 1; $i <= $page_count; $i++) {
+
+                                echo "<a class='";
+                                if ($page_num == $i) {
+                                    echo " a-active";
+                                }
+                                echo "' href='./?page=admin&go=$go&page_num=$i'>$i</a>";
+
+                                $go += 10;
+                            }
+                            //Шаг вперёд
+                            if (($_GET['go'] + 10) < $count_1) :
+                            ?>
+                                <a href="./?page=admin&go=<? print($_GET['go'] + 10); ?>&page_num=<? echo $_GET['page_num'] + 1; ?>">&#10095;</a>
+                        <?
+                            endif;
+                        }
+                        ?>
+                    </div>
+
+                <? } ?>
+            </table>
+        </div>
     </div>
 </div>

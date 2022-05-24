@@ -207,3 +207,30 @@ if (isset($_POST['action']) && $_POST['action'] == "edit_game") {
         echo "*Ошибка! Игра не изменена.";
     }
 }
+//Публикация темы
+if (isset($_POST['action']) && $_POST['action'] == "publishPost") {
+
+    $id = $_POST['id'];
+    $result = publishPost($id);
+    echo $result;
+}
+//Удаление темы
+if (isset($_POST['action']) && $_POST['action'] == "deletePost") {
+
+    $id = $_POST['id'];
+    $result = deletePost($id);
+    if ($result[0] == "success") {
+        $user_id = $result[1];
+        $post_id = $result[2];
+
+        if (file_exists("../../img/posts_img/$user_id/$post_id")) {
+            $imges = glob("../../img/posts_img/$user_id/$post_id/*");
+            foreach ($imges as $imge) {
+                if (is_file($imge))
+                    unlink($imge);
+            }
+            rmdir("../../img/posts_img/$user_id/$post_id");
+        }
+    }
+    echo $result[0];
+}

@@ -207,17 +207,12 @@ if ($count_singeles_for_slider >= 9) :
             <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-inner">
 
-
-
-
-
                     <?php
                     $singeles_for_slider = get_singeles_for_slider();
                     $slid = 0;
                     foreach ($singeles_for_slider as $sliderSing) :
 
                     ?>
-
 
                         <?php if ($slid == 0) : ?>
 

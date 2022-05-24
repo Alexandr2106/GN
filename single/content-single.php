@@ -1,6 +1,6 @@
 <?php
 $single = get_singele_by_id($_GET['id']);
-$game = get_games_by_id($single["games_id"]);
+$game = get_games_by_id($single['games_id']);
 $comments_count = get_comments_count_by_id($_GET['id']);
 ?>
 <div class="container content">
@@ -59,20 +59,20 @@ $comments_count = get_comments_count_by_id($_GET['id']);
                                             <label for="edit_game_id">Игра:</label>
                                             <select name="game" id="edit_game_id<? echo $single['id']; ?>">
                                                 <option value="13">Другое</option>
-                                                <? $games = sort_games_by_name_game("0,99999");
-                                                foreach ($games as $game) :
-                                                    if ($game['id'] == 13) :
+                                                <? $Games = sort_games_by_name_game("0,99999");
+                                                foreach ($Games as $Game) :
+                                                    if ($Game['id'] == 13) :
                                                         continue;
                                                     else :
-                                                        if ($game['id'] == $single['games_id']) {
+                                                        if ($Game['id'] == $single['games_id']) {
                                                 ?>
-                                                            <option value="<? echo $game['id'] ?>" selected><? echo $game['name_game'] ?></option>
+                                                            <option value="<? echo $Game['id'] ?>" selected><? echo $Game['name_game'] ?></option>
 
                                                         <?
                                                         } else {
 
                                                         ?>
-                                                            <option value="<? echo $game['id'] ?>"><? echo $game['name_game'] ?></option>
+                                                            <option value="<? echo $Game['id'] ?>"><? echo $Game['name_game'] ?></option>
 
                                                 <?
                                                         }
@@ -110,7 +110,7 @@ $comments_count = get_comments_count_by_id($_GET['id']);
 
                                         <div class="article-button">
                                             <label id="edit_article_message<? echo $single['id']; ?>"></label>
-                                            <button class="btn add-button" id="edit_article<? echo $single['id']; ?>" onclick="edit_article_by_id(<? echo $single['id']; ?>)">Сохранить</button>
+                                            <button class="btn add-button" style="margin: auto;" id="edit_article<? echo $single['id']; ?>" onclick="edit_article_by_id(<? echo $single['id']; ?>)">Сохранить</button>
 
                                         </div>
                                     </form>
@@ -163,7 +163,7 @@ $comments_count = get_comments_count_by_id($_GET['id']);
                 <div>
                     <div class="game-price-header">
                         <div class="game-price-name">
-                            <h1>Посмтореть <?php echo $game['name_game']; ?>:</h1>
+                            <h1>Посмтореть <?php echo $game["name_game"]; ?>:</h1>
                         </div>
                     </div>
 
@@ -184,8 +184,15 @@ $comments_count = get_comments_count_by_id($_GET['id']);
 
                                     <div class="item-two">
                                         <div class="game-price">
-                                            <span class="price-value"><?php echo $shops['steam_price']; ?></span>
-                                            <span class="currency">₽</span>
+                                            <?php if ($shops['steam_price'] == 0) {
+                                            ?>
+                                                <span class="price-value">Бесплатно</span>
+                                            <?
+                                            } else {
+                                            ?>
+                                                <span class="price-value"><? echo $shops['steam_price']; ?></span>
+                                                <span class="currency">₽</span>
+                                            <? } ?>
                                             <span class="buy-btn">посмотреть</span>
                                         </div>
                                     </div>
@@ -202,8 +209,15 @@ $comments_count = get_comments_count_by_id($_GET['id']);
 
                                     <div class="item-two">
                                         <div class="game-price">
-                                            <span class="price-value"><?php echo $shops['gabestore_price']; ?></span>
-                                            <span class="currency">₽</span>
+                                            <?php if ($shops['gabestore_price'] == 0) {
+                                            ?>
+                                                <span class="price-value">Бесплатно</span>
+                                            <?
+                                            } else {
+                                            ?>
+                                                <span class="price-value"><? echo $shops['gabestore_price']; ?></span>
+                                                <span class="currency">₽</span>
+                                            <? } ?>
                                             <span class="buy-btn">посмотреть</span>
                                         </div>
                                     </div>
@@ -220,8 +234,15 @@ $comments_count = get_comments_count_by_id($_GET['id']);
 
                                     <div class="item-two">
                                         <div class="game-price">
-                                            <span class="price-value"><?php echo $shops['EpicGames_price']; ?></span>
-                                            <span class="currency">₽</span>
+                                            <?php if ($shops['EpicGames_price'] == 0) {
+                                            ?>
+                                                <span class="price-value">Бесплатно</span>
+                                            <?
+                                            } else {
+                                            ?>
+                                                <span class="price-value"><? echo $shops['EpicGames_price']; ?></span>
+                                                <span class="currency">₽</span>
+                                            <? } ?>
                                             <span class="buy-btn">посмотреть</span>
                                         </div>
                                     </div>
@@ -238,8 +259,15 @@ $comments_count = get_comments_count_by_id($_GET['id']);
 
                                     <div class="item-two">
                                         <div class="game-price">
-                                            <span class="price-value"><?php echo $shops['SteamPay_price']; ?></span>
-                                            <span class="currency">₽</span>
+                                            <?php if ($shops['SteamPay_price'] == 0) {
+                                            ?>
+                                                <span class="price-value">Бесплатно</span>
+                                            <?
+                                            } else {
+                                            ?>
+                                                <span class="price-value"><? echo $shops['SteamPay_price']; ?></span>
+                                                <span class="currency">₽</span>
+                                            <? } ?>
                                             <span class="buy-btn">посмотреть</span>
                                         </div>
                                     </div>
@@ -256,8 +284,15 @@ $comments_count = get_comments_count_by_id($_GET['id']);
 
                                     <div class="item-two">
                                         <div class="game-price">
-                                            <span class="price-value"><?php echo $shops['SousBuy_price']; ?></span>
-                                            <span class="currency">₽</span>
+                                            <?php if ($shops['SousBuy_price'] == 0) {
+                                            ?>
+                                                <span class="price-value">Бесплатно</span>
+                                            <?
+                                            } else {
+                                            ?>
+                                                <span class="price-value"><? echo $shops['SousBuy_price']; ?></span>
+                                                <span class="currency">₽</span>
+                                            <? } ?>
                                             <span class="buy-btn">посмотреть</span>
                                         </div>
                                     </div>
@@ -274,8 +309,15 @@ $comments_count = get_comments_count_by_id($_GET['id']);
 
                                     <div class="item-two">
                                         <div class="game-price">
-                                            <span class="price-value"><?php echo $shops['ZakaZAka_price']; ?></span>
-                                            <span class="currency">₽</span>
+                                            <?php if ($shops['ZakaZAka_price'] == 0) {
+                                            ?>
+                                                <span class="price-value">Бесплатно</span>
+                                            <?
+                                            } else {
+                                            ?>
+                                                <span class="price-value"><? echo $shops['ZakaZAka_price']; ?></span>
+                                                <span class="currency">₽</span>
+                                            <? } ?>
                                             <span class="buy-btn">посмотреть</span>
                                         </div>
                                     </div>
@@ -353,51 +395,51 @@ $comments_count = get_comments_count_by_id($_GET['id']);
                     if ($comments_count > 0) :
                         $comments = get_comments_by_id($_GET['id']);
                         foreach ($comments as $comment) :
-                            
+
                             $count_users = get_count_users($comment['user_id']);
-                            if($count_users > 0){
+                            if ($count_users > 0) {
 
                                 $user_comment = get_ava_by_login($comment['user_id']);
-    
+
                                 $user_comment_admin = check_admin($user_comment['id']);
                     ?>
-                            <div class="comments-container">
-                                <div class="comment-item-avatar">
-                                    <div class="comment-avatar">
-                                        <? if ($user_comment['user_avatar'] == NULL) : ?>
-                                            <img src="/img/svg/login.png" alt="Аватар пользователя">
-                                        <? else : ?>
-                                            <img src="<? echo $user_comment['user_avatar']; ?>" alt="Аватар пользователя">
-                                        <? endif; ?>
-                                    </div>
-                                </div>
-
-                                <div class="comment">
-                                    <div class="comments-item-header">
-                                        <? if ($user_comment_admin == 1) : ?>
-                                            <span class="comments-author" style="color: red;"><? echo "Администратор: " . $user_comment['login']; ?></span>
-                                        <? else : ?>
-                                            <span class="comments-author"><? echo $user_comment['login']; ?></span>
-                                        <? endif; ?>
-                                        <span class="comments-item-timestamp">
-                                            <? echo $comment['publication_date']; ?>
-                                        </span>
+                                <div class="comments-container">
+                                    <div class="comment-item-avatar">
+                                        <div class="comment-avatar">
+                                            <? if ($user_comment['user_avatar'] == NULL) : ?>
+                                                <img src="/img/svg/login.png" alt="Аватар пользователя">
+                                            <? else : ?>
+                                                <img src="<? echo $user_comment['user_avatar']; ?>" alt="Аватар пользователя">
+                                            <? endif; ?>
+                                        </div>
                                     </div>
 
-                                    <div class="comments-item-content">
-                                        <div class="comment-text">
-                                            <div>
-                                                <p><? echo $comment['comment']; ?></p>
+                                    <div class="comment">
+                                        <div class="comments-item-header">
+                                            <? if ($user_comment_admin == 1) : ?>
+                                                <span class="comments-author" style="color: red;"><? echo "Администратор: " . $user_comment['login']; ?></span>
+                                            <? else : ?>
+                                                <span class="comments-author"><? echo $user_comment['login']; ?></span>
+                                            <? endif; ?>
+                                            <span class="comments-item-timestamp">
+                                                <? echo $comment['publication_date']; ?>
+                                            </span>
+                                        </div>
+
+                                        <div class="comments-item-content">
+                                            <div class="comment-text">
+                                                <div>
+                                                    <p><? echo $comment['comment']; ?></p>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
 
                         <?
-                        }else{
-                            continue;
-                        }
+                            } else {
+                                continue;
+                            }
                         endforeach;
                     else :
                         ?>

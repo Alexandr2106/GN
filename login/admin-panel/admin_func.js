@@ -781,7 +781,81 @@ $('#send_mailing').click(function (event) {
             }
         })
     }
-
-
-
 });
+
+function publishPost(id){
+
+    let confirmation = confirm(`Вы действительно хотите опубликовать пост с id - ${id}?`);
+
+    if(confirmation == true){
+
+        let data = new FormData();
+
+        data.append('action', "publishPost");
+        data.append('id', id);
+
+        $.ajax({
+            url: "./login/admin-panel/admin_func.php",
+            type: "POST",
+            cache: false,
+            data: data,
+            processData: false,
+            contentType: false,
+            dataType: "text",
+            beforeSend: function () {
+
+                $(".add-quest").prop("disabled", true);
+
+            },
+            success: function (data) {
+                if (data == "success") {
+                    location.reload()
+                    return false;
+                }else{
+                    alert("*Что-то пошло не так.");
+                    $(".add-quest").prop("disabled", false);
+                }
+
+            }
+        })
+    }
+}
+function deletePost(id){
+    
+    let confirmation = confirm(`Вы действительно хотите удалить пост с id - ${id}?`);
+
+    if(confirmation == true){
+
+        let data = new FormData();
+
+        data.append('action', "deletePost");
+        data.append('id', id);
+
+        $.ajax({
+            url: "./login/admin-panel/admin_func.php",
+            type: "POST",
+            cache: false,
+            data: data,
+            processData: false,
+            contentType: false,
+            dataType: "text",
+            beforeSend: function () {
+
+                $(".delete-quest").prop("disabled", true);
+
+            },
+            success: function (data) {
+                if (data == "success") {
+                    //alert(data);
+                    location.reload()
+                    return false;
+                }else{
+                    alert("*Что-то пошло не так.");
+                    alert(data);
+                    $(".delete-quest").prop("disabled", false);
+                }
+
+            }
+        })
+    }
+}

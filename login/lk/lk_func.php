@@ -5,23 +5,16 @@ include("../../DB.php");
 //Функции для добавления файла
 function can_upload($file)
 {
-    // если имя пустое, значит файл не выбран
     if ($file['name'] == '')
         return 'Вы не выбрали файл.';
 
-    /* если размер файла 0, значит его не пропустили настройки 
-	сервера из-за того, что он слишком большой */
     if ($file['size'] == 0)
         return 'Файл слишком большой.';
 
-    // разбиваем имя файла по точке и получаем массив
     $getMime = explode('.', $file['name']);
-    // нас интересует последний элемент массива - расширение
     $mime = strtolower(end($getMime));
-    // объявим массив допустимых расширений
     $types = array('jpg', 'png', 'gif', 'bmp', 'jpeg');
 
-    // если расширение не входит в список допустимых - return
     if (!in_array($mime, $types))
         return 'Недопустимый тип файла.';
 
@@ -33,29 +26,26 @@ function make_upload($file, $login)
     $getMime = explode('.', $file['name']);
 
     $mime = strtolower(end($getMime));
-
-    // формируем уникальное имя картинки: случайное число и name
+    $permitted_chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $unick = substr(str_shuffle($permitted_chars), 0, 40);
     if (file_exists("../../img/users_logo/" . $login)) {
 
-        $imges = glob("../../img/users_logo/" . $login . "/*"); // get all file names
-        foreach ($imges as $imge) { // iterate files
+        $imges = glob("../../img/users_logo/" . $login . "/*");
+        foreach ($imges as $imge) {
             if (is_file($imge))
-                unlink($imge); // delete file
+                unlink($imge);
         }
 
-        $name = mt_rand(0, 10000) . $login . "." . $mime /*. $file['name']*/;
+
+
+        
+        $name = $unick . $login . "." . $mime;
         copy($file['tmp_name'], '../../img/users_logo/' . "$login/" . $name);
         add_user_avatar('img/users_logo/' . "$login/" . $name, $login);
     } else {
 
-        $files = glob("../../img/users_logo/" . $login . "/*"); // get all file names
-        foreach ($files as $file) { // iterate files
-            if (is_file($file))
-                unlink($file); // delete file
-        }
-
         mkdir("../../img/users_logo/" . $login, 0700);
-        $name = mt_rand(0, 10000) . $login . "." . $mime /*. $file['name']*/;
+        $name = $unick . $login . "." . $mime;
         copy($file['tmp_name'], '../../img/users_logo/' . "$login/" . $name);
         add_user_avatar('img/users_logo/' . "$login/" . $name, $login);
     }
@@ -105,5 +95,15 @@ if (isset($_FILES['file'])) {
         // выводим сообщение об ошибке
         echo "<strong style='color: red'>*$check</strong>";
         $_FILES = array();
+    }
+}
+
+if(isset($_POST['user_mailing_email'])){
+    $email = $_POST['user_mailing_email'];
+    $result = drop_mailing($email);
+    if($result == 0){
+        echo "Подписка успешно отменена.";
+    }else{
+        echo $result;
     }
 }

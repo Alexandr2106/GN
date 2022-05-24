@@ -185,9 +185,9 @@ function change_password() {
 
 $('#file-submit').click(function (event) {
     event.preventDefault();
-    var data = jQuery('#file_form').find('input').serialize();
+    
     let login = $('#login_for_file').val();
-    //--console.debug(data);
+
 
 
     var fd = new FormData();
@@ -222,3 +222,35 @@ $('#file-submit').click(function (event) {
         },
     });
 });
+$('#mailing_unsubscribe').click(function (event) {
+    event.preventDefault();
+    let data = new FormData();
+    data.append("user_mailing_email", $('#user_mailing_email').val());
+
+    $.ajax({
+        type: 'POST',
+        url: './login/lk/lk_func.php',
+        data: data,
+        processData: false,
+        contentType: false,
+        dataType: "text",
+        beforeSend: function () {
+
+            $("#mailing_unsubscribe").prop("disabled", true);
+
+        },
+        success: function (data) {
+            if (data) {
+                $("#mailing_unsubscribe_message").css("color", "green");
+                $("#mailing_unsubscribe_message").html(data);
+                location.reload();
+                return false;
+            } else if (!data) {
+                $("#mailing_unsubscribe_message").css("color", "red");
+                $("#mailing_unsubscribe_message").html("*Ошибка. Попробуйте повторить позже.");
+                $("#mailing_unsubscribe").prop("disabled", false);
+            }
+
+        },
+    });
+})

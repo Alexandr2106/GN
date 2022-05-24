@@ -38,8 +38,8 @@ $('#mailing_lk').click(function (event) {
                     $('#mailing_email_lk_message').css("color", "green");
                     $('#mailing_email_lk_message').html(data);
                     $("#mailing_lk").prop("disabled", false);
-                    /* location.reload()
-                    return false; */
+                    location.reload()
+                    return false;
                 } else {
                     $('#mailing_email_lk_message').css("color", "red");
                     $('#mailing_email_lk_message').html(data);

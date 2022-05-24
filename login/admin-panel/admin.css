@@ -98,7 +98,9 @@
 .Modal,
 .ModalTwo,
 .ModalEdit,
-.ModalEditTwo {
+.ModalEditTwo,
+.ModalMailing,
+.ModalPost {
     border: 0;
     border-radius: 4px;
     padding: 1.25em;
@@ -107,21 +109,30 @@
 .Modal[open],
 .ModalTwo[open],
 .ModalEdit[open],
-.ModalEditTwo[open] {
+.ModalEditTwo[open],
+.ModalMailing[open],
+.ModalPost[open],
+.imageZoom[open] {
     animation: zoom 0.2s linear forwards;
 }
 
 .Modal[close],
 .ModalTwo[close],
 .ModalEditTwo[close],
-.ModalEdit[close] {
+.ModalEdit[close],
+.ModalMailing[close],
+.ModalPost[close],
+.imageZoom[close] {
     animation: zoom 0.2s linear forwards;
 }
 
 .Modal::backdrop,
 .ModalTwo::backdrop,
 .ModalEdit::backdrop,
-.ModalEditTwo::backdrop {
+.ModalEditTwo::backdrop,
+.ModalMailing::backdrop,
+.ModalPost::backdrop,
+.imageZoom::backdrop {
     background-color: #252525;
     opacity: 0.8;
 }
@@ -160,8 +171,8 @@
     border: 0.5px solid;
 }
 
-.adding label,
-.adding-shop label {
+.adding label:first-child,
+.adding-shop label:first-child {
     width: 150px;
 }
 
@@ -199,7 +210,8 @@
 }
 
 .article-button .add-button,
-.Modal-inner .add-button {
+.Modal-inner .add-button,
+.add-quest {
     width: 150px;
     align-self: center;
 }
@@ -207,7 +219,9 @@
 .Modal-inner .closeModal,
 .closeModalTwo,
 .closeModalEdit,
-.closeModalEditTwo {
+.closeModalEditTwo,
+.closeModalMailing,
+.closeModalPost {
     background: var(--hover-color);
     color: white;
 }
@@ -215,7 +229,9 @@
 .Modal-inner .closeModal:hover,
 .closeModalTwo:hover,
 .closeModalEdit:hover,
-.closeModalEditTwo {
+.closeModalEditTwo:hover,
+.closeModalMailing:hover,
+.closeModalPost:hover {
     background: #df001e;
     transform: scale(1.1) skew(-5deg);
 }
@@ -322,7 +338,9 @@
     .Modal,
     .ModalEdit,
     .ModalEditTwo,
-    .ModalTwo {
+    .ModalTwo,
+    .ModalPost,
+    .imageZoom {
         width: 80% !important;
     }
     .edit,
@@ -348,7 +366,9 @@
     .Modal,
     .ModalEdit,
     .ModalEditTwo,
-    .ModalTwo {
+    .ModalTwo,
+    .ModalPost,
+    .imageZoom {
         width: 80% !important;
     }
 }
@@ -394,8 +414,9 @@
         margin-bottom: 10px;
     }
     .edit:hover,
-    .delete:hover {
-        background-color: #ffffff00;
+    .delete:hover,
+    .add-quest:hover {
+        background-color: #ffffff00 !important;
         color: #fff;
         height: 32px;
     }
@@ -418,4 +439,129 @@
     .tab {
         font-size: 11px;
     }
+}
+
+.send-mailing {
+    display: flex;
+    align-items: center;
+    flex-basis: 50%;
+    justify-content: center;
+}
+
+
+/*.openModalMailing {
+    background-color: var(--hover-color);
+    color: #fff;
+    height: 50px;
+    padding: 0 15px 0 15px;
+    border-radius: 10px;
+}
+
+.openModalMailing:hover {
+    background-color: #df001e;
+    color: #fff;
+    transform: scale(1.1);
+    transition: all 0.3s ease;
+}*/
+
+.openModalMailing {
+    padding: 15px 25px;
+    font-family: "Roboto", sans-serif;
+    font-weight: 500;
+    background: transparent;
+    outline: none !important;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.openModalMailing {
+    border: 2px solid var(--hover-color);
+    z-index: 1;
+    color: #fff;
+    background-color: var(--hover-color);
+}
+
+.openModalMailing:after {
+    position: absolute;
+    content: "";
+    width: 0;
+    height: 100%;
+    top: 0;
+    left: 0;
+    direction: rtl;
+    z-index: -1;
+    background: #fff;
+    transition: all 0.5s ease;
+}
+
+.openModalMailing:hover {
+    color: var(--hover-color);
+}
+
+.openModalMailing:hover:after {
+    left: auto;
+    right: 0;
+    width: 100%;
+}
+
+.openModalMailing:active {
+    top: 2px;
+}
+
+.send-mailing .adding {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.send-mailing .adding label:nth-child(2) {
+    border-right: 1px solid black;
+    padding-right: 10px;
+}
+
+.send-mailing .adding label:nth-child(3) {
+    padding-left: 10px;
+}
+
+.questions {
+    margin-top: 30px;
+}
+
+.add-quest:hover {
+    background: #19B95B;
+    color: #fff;
+    border: 1px solid #19B95B;
+    box-shadow: 1px 1px 3px #19b95b;
+}
+
+.admin-panel-quest tr {
+    vertical-align: top;
+}
+
+.admin-panel-quest td:first-child {
+    width: 35px;
+}
+
+.ModalPost .adding {
+    display: grid;
+    margin-bottom: 20px;
+}
+
+.ModalPost label {
+    font-size: 16px;
+    font-weight: 500;
+    width: 100% !important;
+}
+
+.img-post {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.img-post img {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
 }

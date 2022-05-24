@@ -46,7 +46,7 @@ function get_singele_by_id($id)
 function get_games_by_id($id)
 {
     global $db;
-    $games = $db->query("SELECT * FROM `games` WHERE `id` = $id");
+    $games = $db->query("SELECT * FROM `games` WHERE `id` = '$id'");
     if (is_array($games) || is_object($games)) {
         foreach ($games as $game) {
             return $game;
@@ -54,14 +54,12 @@ function get_games_by_id($id)
     }
 }
 //Увеличение кол-ва просмотров статьи по id
-
 function views_update($id)
 {
     global $db;
     $views_update = $db->query("UPDATE `articles` SET `views` = `views` + 1 WHERE `id` = $id");
     return $views_update;
 }
-
 //Получение всех игр 
 function get_games_all()
 {
@@ -588,7 +586,7 @@ function add_new_mailing($email, $login)
         } else {
             return $result;
         }
-    }else{
+    } else {
         $result = -1;
         return $result;
     }
@@ -597,7 +595,7 @@ function add_new_mailing($email, $login)
 function add_mailing_articles()
 {
     global $db;
-    $today = date("Y-m-d H:i:s"); 
+    $today = date("Y-m-d H:i:s");
     $lastWeek = date("Y-m-d H:i:s", strtotime($today . "-1 week"));
     $results = $db->query("SELECT * FROM `articles` WHERE `pubdate` BETWEEN '$lastWeek' AND '$today' ORDER BY `pubdate` DESC");
     return $results;
@@ -608,4 +606,197 @@ function add_mailing_emails()
     global $db;
     $results = $db->query("SELECT * FROM `mailing`");
     return $results;
+}
+//Добавление нового поста
+function add_new_post($post_user, $post_title, $post_comment, $post_id)
+{
+    global $db;
+    $db->query("INSERT INTO `posts` (`id`, `post_id`, `post_title`, `post_comment`, `user_id`, `status`, `pubdate`) VALUES (NULL, '$post_id', '$post_title', '$post_comment', '$post_user', 0, CURRENT_TIMESTAMP);");
+
+    $results = $db->query("SELECT * FROM `posts` WHERE `post_id` = '$post_id'");
+    if (is_array($results) || is_object($results)) {
+        foreach ($results as $result) {
+            $result = $result[0];
+        }
+    }
+    if ($result = 0) {
+        return "error";
+    } else {
+        return "success";
+    }
+}
+//Получение всех неодобренных тем
+function get_unactiv_posts($limit)
+{
+    global $db;
+    $results = $db->query("SELECT count(*) FROM `posts` WHERE `status` = 0");
+    if (is_array($results) || is_object($results)) {
+        foreach ($results as $result) {
+            $result = $result[0];
+        }
+    }
+    if ($result == 0) {
+        return $result;
+    } else {
+        $results = $db->query("SELECT * FROM `posts` WHERE `status` = 0 LIMIT " . $limit);
+        return $results;
+    }
+}
+//Получение кол-ва всех неодобренных тем
+function get_count_unactiv_posts()
+{
+    global $db;
+    $results = $db->query("SELECT count(*) FROM `posts` WHERE `status` = 0");
+    if (is_array($results) || is_object($results)) {
+        foreach ($results as $result) {
+            return $result[0];
+        }
+    }
+}
+//Публикация темы
+function publishPost($id)
+{
+    global $db;
+    $db->query("UPDATE `posts` SET `status` = '1' WHERE `id` = $id;");
+
+    $results = $db->query("SELECT count(*) FROM `posts` WHERE `id` = $id;");
+    if (is_array($results) || is_object($results)) {
+        foreach ($results as $result) {
+            $result = $result[0];
+        }
+    }
+    if ($result = 0) {
+        return "error";
+    } else {
+        return "success";
+    }
+}
+//Удаление темы
+function deletePost($id)
+{
+    global $db;
+    $data = $db->query("SELECT * FROM `posts` WHERE `id` = $id;");
+    if (is_array($data) || is_object($data)) {
+        foreach ($data as $data) {
+            $newData = [];
+            $newData[1] = $data['user_id'];
+            $newData[2] = $data['post_id'];
+        }
+    }
+    $db->query("DELETE FROM `posts` WHERE `id` = $id;");
+
+    $results = $db->query("SELECT count(*) FROM `posts` WHERE `id` = $id;");
+    if (is_array($results) || is_object($results)) {
+        foreach ($results as $result) {
+            $result = $result[0];
+        }
+    }
+    if ($result > 0) {
+        return "error";
+    } else {
+        $newData[0] = "success";
+        return $newData;
+    }
+}
+//Получение всех одобренных тем
+function get_activ_posts($limit)
+{
+    global $db;
+    $results = $db->query("SELECT count(*) FROM `posts` WHERE `status` = 1");
+    if (is_array($results) || is_object($results)) {
+        foreach ($results as $result) {
+            $result = $result[0];
+        }
+    }
+    if ($result == 0) {
+        return $result;
+    } else {
+        $results = $db->query("SELECT * FROM `posts` WHERE `status` = 1 ORDER BY `pubdate` DESC LIMIT $limit");
+        return $results;
+    }
+}
+//Получение кол-ва всех одобренных тем
+function get_count_activ_posts()
+{
+    global $db;
+    $results = $db->query("SELECT count(*) FROM `posts` WHERE `status` = 1");
+    if (is_array($results) || is_object($results)) {
+        foreach ($results as $result) {
+            return $result[0];
+        }
+    }
+}
+//Получение темы по id
+function get_post($id)
+{
+    global $db;
+    $results = $db->query("SELECT * FROM `posts` WHERE `post_id` = '$id'");
+    if (is_array($results) || is_object($results)) {
+        foreach ($results as $result) {
+            return $result;
+        }
+    }
+}
+//Увеличение кол-ва просмотров темы по id
+function postViews_update($id)
+{
+    global $db;
+    $views_update = $db->query("UPDATE `posts` SET `views` = `views` + 1 WHERE `post_id` = '$id'");
+    return $views_update;
+}
+//Добавление ответа в теме
+function add_new_post_comment($comment, $post_id, $user_id)
+{
+    global $db;
+    $db->query("INSERT INTO `post_comments` (`id`, `user_id`, `post_id`, `comment`, `publication_date`) VALUES (NULL, '$user_id', '$post_id', '$comment', CURRENT_TIMESTAMP);");
+}
+//Получение кол-ва ответов на пост
+function get_count_post_comments($id)
+{
+    global $db;
+    $results = $db->query("SELECT count(*) FROM `post_comments` WHERE `post_id` = '$id'");
+    if (is_array($results) || is_object($results)) {
+        foreach ($results as $result) {
+            return $result[0];
+        }
+    }
+}
+//Получение ответов на пост
+function get_post_comments($id)
+{
+    global $db;
+    $results = $db->query("SELECT * FROM `post_comments` WHERE `post_id` = '$id'");
+    return $results;
+}
+//Получение результатов поиска
+function get_search_results($Query)
+{
+    global $db;
+    $results = $db->query($Query);
+    return $results;
+}
+//Проверка подписки
+function mailing_check($email)
+{
+    global $db;
+    $results = $db->query("SELECT count(*) FROM `mailing` WHERE `email` = '$email'");
+    if (is_array($results) || is_object($results)) {
+        foreach ($results as $result) {
+            return $result[0];
+        }
+    }
+}
+//Отписка от рассылки
+function drop_mailing($email)
+{
+    global $db;
+    
+    $db->query("DELETE FROM `mailing` WHERE `email` = '$email'");
+    
+    $results = $db->query("SELECT count(*) FROM `mailing` WHERE `email` = '$email'");
+    if (is_array($results) || is_object($results)) {
+        foreach ($results as $result) {
+            return $result[0];
+        }
+    }
 }
