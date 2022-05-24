@@ -584,3 +584,54 @@ p {
 .ssearch_mod input.ssearch_inp:focus-visible {
     outline: -webkit-focus-ring-color auto 0px;
 }
+
+
+/* CHEK ПОИСКА*/
+
+.search_tag {
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px
+}
+
+.search_tag input {
+    width: auto;
+    height: 100%;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    outline: none;
+    cursor: pointer;
+    padding: 5px 10px;
+    background: var(--background-color-light);
+    color: var(--nav-color);
+    font-size: 16px;
+    border-radius: 10px;
+}
+
+.search_tag input:checked {
+    background: var(--hover-color);
+    color: var(--background-color-light);
+    box-shadow: 0 1px 1px #0000002e;
+    text-shadow: 0 1px 0px #79485f7a;
+}
+
+.search_tag input:before {
+    content: attr(label);
+    display: inline-block;
+    text-align: center;
+    width: 100%;
+}
+
+.navbar-toggler:focus {
+    text-decoration: none;
+    outline: 0;
+    box-shadow: 0 0 0 0 !important;
+}
+
+.navbar-dark .navbar-toggler {
+    color: rgba(255, 255, 255, 0.55);
+    border-color: var(--nav-color) !important;
+}

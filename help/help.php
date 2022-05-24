@@ -7,7 +7,7 @@
                 </div>
                 <ul class="sort">
                     <li class="sort-item">
-                        <a href="#"><span class="filter sort-selected">Помощь</span></a>
+                        <a href="./?page=help"><span class="filter sort-selected">Форум</span></a>
                     </li>
                     <li class="sort-item">
                         <a href="#"><span class="filter">О нас</span></a>
@@ -28,109 +28,197 @@
                 </ol>
             </section>
 
-            <div class="blok-header">Вопросы и ответы</div>
-
-            <div class="ask-question">
-                <div class="ask-button-item">
-                    <a href="#" class="btn">
-                        <span>Задать вопрос</span>
-                    </a>
+            <div class="blok-header">Спрашивайте и узнавайте</div>
+            <? if (isset($_SESSION['user_id'])) : ?>
+                <div class="ask-question">
+                    <div class="ask-button-item">
+                        <a href="./?page=adding-post" class="btn">
+                            <span>Создать пост</span>
+                        </a>
+                    </div>
                 </div>
-            </div>
+            <? else : ?>
+                <!--В СЛУЧАЕ, ЕСЛИ ПОЛЬЗОВАТЕЛЬ НЕ АВТОРИЗИРОВАН-->
+                <div class="if-form">
+                    <div class="com-anotation">Авторизуйтесь, чтобы создать пост.</div>
+                    <div class="login_block">
+                        <a href="./?page=log" style="color: black;">Войти под своим логином</a>
+                        <a href="./?page=reg" style="color: black;">Зарегистрироваться</a>
+                    </div>
+                </div>
+            <? endif; ?>
 
+            <!-- СУЩЕСТВУЮЩИЕ ПОСТЫ -->
             <section>
                 <div class="help-list">
                     <div class="help-items">
-                        <div class="help-item">
-                            <div class="question">
-                                <a href="#">Имеет ли смысл установка сжо на 12700kf, или хватит какого нибудь DARK ROCK PRO 4?...</a>
-                            </div>
+                        <?
+                        $limit_start = 0;
+                        $limit_end = 10;
+                        if (isset($_GET['go'])) {
+                            $limit_start += $_GET['go'];
+                        }
+                        $posts = get_activ_posts("$limit_start,$limit_end");
+                        if ($posts == 0) {
+                        ?>
+                            <p>На данный момент тем для обсуждения нет.</p>
+                            <?
+                        } else {
+                            foreach ($posts as $post) :
+                            ?>
+                                <div class="help-item">
+                                    <div class="question">
+                                        <a href="./?page=post&post_id=<? echo $post['post_id'] ?>"><? echo $post['post_title'] ?></a>
+                                    </div>
 
-                            <div class="help-info">
-                                <div class="help-descript">
-                                    <span class="date" style="padding-right: 0;">2022-05-01 01:15:12</span>
+                                    <div class="help-info">
+                                        <div class="help-descript">
+                                            <span class="date" style="padding-right: 0;"><? echo $post['pubdate'] ?></span>
 
-                                    <span class="views">
-                                        <img src="img/view-dark.png" class="imgi" alt="Просмотры">
-                                        1
-                                    </span>
+                                            <span class="views">
+                                                <img src="img/view-dark.png" class="imgi" alt="Просмотры">
+                                                <? echo $post['views']; ?>
+                                            </span>
 
-                                    <span class="comments">
-                                        <img src="img/chat-bubble-dark.png" class="imgi" alt="Комменты">
-                                        1
-                                    </span>
-                                </div>
-                            </div>
+                                            <span class="comments">
+                                                <img src="img/chat-bubble-dark.png" class="imgi" alt="Комменты">
+                                                <? $comments_count = get_count_post_comments($post['post_id']); ?>
+                                                <? echo $comments_count; ?>
+                                            </span>
+                                        </div>
+                                    </div>
 
-                            <div class="annotation">
-                                Собираю новый пк и встал такой вопрос — а хватит воздуха для этого процессора (пока без разгона, но в будущем планирую) или уже стоит смотреть в сторону воды...
-                            </div>
+                                    <div class="annotation">
+                                        <? echo $post['post_comment'] ?>
+                                    </div>
 
-                            <div class="status">
+                                    <!--<div class="status">
                                 <span class="status-open">Открыт <img src="/img/close.png" alt="Вопрос открыт"></span>
                             </div>
-                        </div>
-
-                        <div class="help-item">
-                            <div class="question">
-                                <a href="#">Survival mars не запускается...</a>
-                            </div>
-
-                            <div class="help-info">
-                                <div class="help-descript">
-                                    <span class="date" style="padding-right: 0;">2022-05-01 01:15:12</span>
-
-                                    <span class="views">
-                                        <img src="img/view-dark.png" class="imgi" alt="Просмотры">
-                                        10
-                                    </span>
-
-                                    <span class="comments">
-                                        <img src="img/chat-bubble-dark.png" class="imgi" alt="Комменты">
-                                        3
-                                    </span>
-                                </div>
-                            </div>
-
-                            <div class="annotation">
-                                survival mars не запускается..Здравствуйте. При запуске survival mars столкнулся с проблемой пиратка не запускается, вылезает белое окно и через 5 секунд все исчезает. доп по устанавливал, железо подходит, ос винда...
-                            </div>
-
                             <div class="status">
                                 <span class="status-check">Закрыт <img src="/img/check.png" alt="Вопрос открыт"></span>
-                            </div>
-                        </div>
-
-                        <div class="help-item">
-                            <div class="question">
-                                <a href="#">Где сделать доски в FS 22?...</a>
-                            </div>
-
-                            <div class="help-info">
-                                <div class="help-descript">
-                                    <span class="date" style="padding-right: 0;">2022-05-01 01:15:12</span>
-
-                                    <span class="views">
-                                        <img src="img/view-dark.png" class="imgi" alt="Просмотры">
-                                        10
-                                    </span>
-
-                                    <span class="comments">
-                                        <img src="img/chat-bubble-dark.png" class="imgi" alt="Комменты">
-                                        3
-                                    </span>
+                            </div>-->
                                 </div>
-                            </div>
 
-                            <div class="annotation">
-                                Где сделать доски что бы делать из них мебель?...
-                            </div>
+                            <? endforeach; ?>
 
-                            <div class="status">
-                                <span class="status-open">Открыт <img src="/img/close.png" alt="Вопрос открыт"></span>
+                            <div class="pages">
+                                <?php
+                                $count = get_count_activ_posts();
+                                $count_1 = $count;
+                                $count = $count;
+                                $go = 10;
+                                $page_count = 0;
+                                for ($i = 1;; $i++) {
+                                    if ($count > 0) {
+                                        $page_count++;
+                                    } else {
+                                        break;
+                                    }
+                                    $count -= 10;
+                                }
+                                $page_num = $_GET['page_num'];
+                                if ($page_count > 2) {
+                                ?>
+                                    <!-- Шаг назад -->
+                                    <? if ($_GET['go'] > 0) : ?>
+                                        <a href="./?page=help&go=<? print($_GET['go'] - 10); ?>&page_num=<? echo $_GET['page_num'] - 1; ?>">&#10094;</a>
+                                    <? endif; ?>
+                                    <?
+                                    if ($page_num <= 4 || $page_count < 8) {
+                                    ?>
+                                        <a class="<?php if ($page_num == 1) {
+                                                        echo " a-active";
+                                                    } ?>" href="./?page=help&go=0&page_num=1">1</a>
+                                    <?
+                                    } else {
+                                    ?>
+                                        <a class="<?php if ($page_num == 1) {
+                                                        echo " a-active";
+                                                    } ?>" href="./?page=help&go=0&page_num=1">1</a>
+                                        <p style="line-height: 32px;">...</p>
+                                    <?
+                                    }
+                                    for ($i = 2; $i <= $page_count - 1; $i++) {
+                                        if ($page_num > 4 && $page_num < ($page_count - 2)) {
+                                            if ($i <= ($page_num + 2) && $i >= ($page_num - 2)) {
+                                                echo "<a class='";
+                                                if ($page_num == $i) {
+                                                    echo " a-active";
+                                                }
+                                                echo "' href='./?page=help&go=$go&page_num=$i'>$i</a>";
+                                            }
+                                        } elseif ($page_num <= 4) {
+                                            if ($i >= 2 && $i <= 6) {
+                                                echo "<a class='";
+                                                if ($page_num == $i) {
+                                                    echo " a-active";
+                                                }
+                                                echo "' href='./?page=help&go=$go&page_num=$i'>$i</a>";
+                                            }
+                                        } elseif ($page_num > ($page_count - 3)) {
+                                            if ($i >= ($page_count - 5) && $i <= $page_count) {
+                                                echo "<a class='";
+                                                if ($page_num == $i) {
+                                                    echo " a-active";
+                                                }
+                                                echo "' href='./?page=help&go=$go&page_num=$i'>$i</a>";
+                                            }
+                                        }
+                                        $go += 10;
+                                    }
+                                    if ($page_num > ($page_count - 4) || $page_count < 8) {
+                                    ?>
+                                        <a class="<?php if ($page_num == $page_count) {
+                                                        echo " a-active";
+                                                    } ?>" href="./?page=help&go=<? echo $go; ?>&page_num=<? echo $page_count; ?>"><? echo $page_count; ?></a>
+                                    <?
+                                    } else {
+                                    ?>
+                                        <p style="line-height: 32px;">...</p>
+                                        <a class="<?php if ($page_num == $page_count) {
+                                                        echo " a-active";
+                                                    } ?>" href="./?page=help&go=<? echo $go; ?>&page_num=<? echo $page_count; ?>"><? echo $page_count; ?></a>
+                                    <?
+                                    }
+
+
+
+
+                                    //Шаг вперёд
+                                    if (($_GET['go'] + 10) < $count_1) : ?>
+                                        <a href="./?page=help&go=<? print($_GET['go'] + 10); ?>&page_num=<? echo $_GET['page_num'] + 1; ?>">&#10095;</a>
+                                    <? endif;
+                                } else {
+                                    //Шаг назад
+                                    if ($_GET['go'] > 0) :
+                                    ?>
+                                        <a href="./?page=help&go=<? print($_GET['go'] - 10); ?>&page_num=<? echo $_GET['page_num'] - 1; ?>">&#10094;</a>
+                                    <?
+                                    endif;
+                                    $go = 0;
+                                    for ($i = 1; $i <= $page_count; $i++) {
+
+                                        echo "<a class='";
+                                        if ($page_num == $i) {
+                                            echo " a-active";
+                                        }
+                                        echo "' href='./?page=help&go=$go&page_num=$i'>$i</a>";
+
+                                        $go += 10;
+                                    }
+                                    //Шаг вперёд
+                                    if (($_GET['go'] + 10) < $count_1) :
+                                    ?>
+                                        <a href="./?page=help&go=<? print($_GET['go'] + 10); ?>&page_num=<? echo $_GET['page_num'] + 1; ?>">&#10095;</a>
+                                <?
+                                    endif;
+                                }
+                                ?>
                             </div>
-                        </div>
+                        <? } ?>
                     </div>
+
                 </div>
             </section>
         </main>
