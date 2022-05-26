@@ -78,6 +78,7 @@
                                             } ?></span>
                                 </div>
                             </div>
+                            
                             <div class="row view-all-about"><a href="./?game_id=<? echo $game['id']; ?>">ВСЕ НОВОСТИ ИГРЫ</a></div>
                         </div>
                     </div>

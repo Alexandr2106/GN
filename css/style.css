@@ -452,7 +452,7 @@ p {
 }
 
 .ssearch_modal .ssearch_container {
-    width: 50%;
+    width: 90%;
     clear: both;
     overflow: auto;
     margin: 0px auto;

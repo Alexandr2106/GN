@@ -217,100 +217,118 @@ if ($count_singeles_for_slider >= 9) :
                         <?php if ($slid == 0) : ?>
 
                             <div class="carousel-item active">
-                                <img src="<?php echo $sliderSing['img']; ?>" class="d-block w-100" alt="...">
-                                <div class="carousel-caption">
-                                    <h5>
-                                        <?php echo $sliderSing['title']; ?>
-                                    </h5>
-                                </div>
+                                <a href="./?id=<?php echo $sliderSing["id"]; ?>">
+                                    <img src="<?php echo $sliderSing['img']; ?>" class="d-block w-100" alt="Слайдер">
+                                    <div class="carousel-caption">
+                                        <h5>
+                                            <?php echo $sliderSing['title']; ?>
+                                        </h5>
+                                    </div>
+                                </a>
                             </div>
 
                         <?php elseif ($slid == 1) : ?>
 
                             <div class="carousel-item">
-                                <img src="<?php echo $sliderSing['img']; ?>" class="d-block w-100" alt="...">
-                                <div class="carousel-caption">
-                                    <h5>
-                                        <?php echo $sliderSing['title']; ?>
-                                    </h5>
-                                </div>
+                                <a href="./?id=<?php echo $sliderSing["id"]; ?>">
+                                    <img src="<?php echo $sliderSing['img']; ?>" class="d-block w-100" alt="Слайдер">
+                                    <div class="carousel-caption">
+                                        <h5>
+                                            <?php echo $sliderSing['title']; ?>
+                                        </h5>
+                                    </div>
+                                </a>
                             </div>
 
                         <?php elseif ($slid == 2) : ?>
 
                             <div class="carousel-item">
-                                <img src="<?php echo $sliderSing['img']; ?>" class="d-block w-100" alt="...">
-                                <div class="carousel-caption">
-                                    <h5>
-                                        <?php echo $sliderSing['title']; ?>
-                                    </h5>
-                                </div>
+                                <a href="./?id=<?php echo $sliderSing["id"]; ?>">
+                                    <img src="<?php echo $sliderSing['img']; ?>" class="d-block w-100" alt="Слайдер">
+                                    <div class="carousel-caption">
+                                        <h5>
+                                            <?php echo $sliderSing['title']; ?>
+                                        </h5>
+                                    </div>
+                                </a>
                             </div>
 
                         <?php elseif ($slid == 3) : ?>
 
                             <div class="carousel-item">
-                                <img src="<?php echo $sliderSing['img']; ?>" class="d-block w-100" alt="...">
-                                <div class="carousel-caption">
-                                    <h5>
-                                        <?php echo $sliderSing['title']; ?>
-                                    </h5>
-                                </div>
+                                <a href="./?id=<?php echo $sliderSing["id"]; ?>">
+                                    <img src="<?php echo $sliderSing['img']; ?>" class="d-block w-100" alt="Слайдер">
+                                    <div class="carousel-caption">
+                                        <h5>
+                                            <?php echo $sliderSing['title']; ?>
+                                        </h5>
+                                    </div>
+                                </a>
                             </div>
 
                         <?php elseif ($slid == 4) : ?>
 
                             <div class="carousel-item">
-                                <img src="<?php echo $sliderSing['img']; ?>" class="d-block w-100" alt="...">
-                                <div class="carousel-caption">
-                                    <h5>
-                                        <?php echo $sliderSing['title']; ?>
-                                    </h5>
-                                </div>
+                                <a href="./?id=<?php echo $sliderSing["id"]; ?>">
+                                    <img src="<?php echo $sliderSing['img']; ?>" class="d-block w-100" alt="Слайдер">
+                                    <div class="carousel-caption">
+                                        <h5>
+                                            <?php echo $sliderSing['title']; ?>
+                                        </h5>
+                                    </div>
+                                </a>
                             </div>
 
                         <?php elseif ($slid == 5) : ?>
 
                             <div class="carousel-item">
-                                <img src="<?php echo $sliderSing['img']; ?>" class="d-block w-100" alt="...">
-                                <div class="carousel-caption">
-                                    <h5>
-                                        <?php echo $sliderSing['title']; ?>
-                                    </h5>
-                                </div>
+                                <a href="./?id=<?php echo $sliderSing["id"]; ?>">
+                                    <img src="<?php echo $sliderSing['img']; ?>" class="d-block w-100" alt="Слайдер">
+                                    <div class="carousel-caption">
+                                        <h5>
+                                            <?php echo $sliderSing['title']; ?>
+                                        </h5>
+                                    </div>
+                                </a>
                             </div>
 
                         <?php elseif ($slid == 6) : ?>
 
                             <div class="carousel-item">
-                                <img src="<?php echo $sliderSing['img']; ?>" class="d-block w-100" alt="...">
-                                <div class="carousel-caption">
-                                    <h5>
-                                        <?php echo $sliderSing['title']; ?>
-                                    </h5>
-                                </div>
+                                <a href="./?id=<?php echo $sliderSing["id"]; ?>">
+                                    <img src="<?php echo $sliderSing['img']; ?>" class="d-block w-100" alt="Слайдер">
+                                    <div class="carousel-caption">
+                                        <h5>
+                                            <?php echo $sliderSing['title']; ?>
+                                        </h5>
+                                    </div>
+                                </a>
                             </div>
 
                         <?php elseif ($slid == 7) : ?>
 
                             <div class="carousel-item">
-                                <img src="<?php echo $sliderSing['img']; ?>" class="d-block w-100" alt="...">
-                                <div class="carousel-caption">
-                                    <h5>
-                                        <?php echo $sliderSing['title']; ?>
-                                    </h5>
-                                </div>
+                                <a href="./?id=<?php echo $sliderSing["id"]; ?>">
+                                    <img src="<?php echo $sliderSing['img']; ?>" class="d-block w-100" alt="Слайдер">
+                                    <div class="carousel-caption">
+                                        <h5>
+                                            <?php echo $sliderSing['title']; ?>
+                                        </h5>
+                                    </div>
+                                </a>
                             </div>
 
                         <?php elseif ($slid == 8) : ?>
 
                             <div class="carousel-item">
-                                <img src="<?php echo $sliderSing['img']; ?>" class="d-block w-100" alt="...">
-                                <div class="carousel-caption">
-                                    <h5>
-                                        <?php echo $sliderSing['title']; ?>
-                                    </h5>
-                                </div>
+                                <a href="./?id=<?php echo $sliderSing["id"]; ?>">
+                                    <img src="<?php echo $sliderSing['img']; ?>" class="d-block w-100" alt="Слайдер">
+                                    <div class="carousel-caption">
+                                        <h5>
+                                            <?php echo $sliderSing['title']; ?>
+                                        </h5>
+                                    </div>
+                                </a>
                             </div>
 
                         <?php endif; ?>
