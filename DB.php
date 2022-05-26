@@ -800,3 +800,4 @@ function drop_mailing($email)
         }
     }
 }
+

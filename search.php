@@ -68,7 +68,7 @@ if (isset($_POST['search_tag']) && $_POST['search_tag'] == "s-games") {
 
                         $stroka = iconv('UTF-8', 'windows-1251', $result["prewie_text"]); //Меняем кодировку на windows-1251
 
-                        $stroka = substr($stroka, 0, 600); //Обрезаем строку
+                        $stroka = substr($stroka, 0, 300); //Обрезаем строку
 
                         $stroka = iconv('windows-1251', 'UTF-8', $stroka); //Возвращаем кодировку в utf-8
 
