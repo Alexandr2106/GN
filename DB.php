@@ -4,12 +4,17 @@ $dbname = "gamenews_db";
 $username = "admin";
 $password = "";
 
+/*$dbhost = "localhost";
+$dbname = "cl37681_gamenews";
+$username = "cl37681_gamenews";
+$password = "Alex2106200100";*/
+
 
 $db = new PDO("mysql:host=$dbhost;dbname=$dbname", $username, $password);
 //Получение всех статей по лимиту
 function get_singles_all($limit)
 {
-    global $db;
+    global $db; //область вилимсоти
     $singles = $db->query("SELECT * FROM `articles` ORDER BY `pubdate` DESC LIMIT " . $limit);
     return $singles;
 }
@@ -18,7 +23,7 @@ function get_singles_all($limit)
 function get_singles_minus_last_two()
 {
     global $db;
-    $singles_minus_last_two = $db->query("SELECT * FROM `articles` WHERE `id` not in (select max(`id`) from `articles`) and `id` not in (select max(`id`-1) from `articles`) ORDER BY `pubdate` DESC LIMIT 0,18");
+    $singles_minus_last_two = $db->query("SELECT * FROM `articles` ORDER BY `pubdate` DESC LIMIT 2,18");
     return $singles_minus_last_two;
 }
 
@@ -26,7 +31,7 @@ function get_singles_minus_last_two()
 function get_FirstTwoSingles()
 {
     global $db; //область видимости
-    $FirstTwoSingles = $db->query("SELECT * FROM `articles` WHERE `id` = (SELECT MAX(`id`) FROM `articles`) OR `id` = (SELECT MAX(`id` - 1) FROM `articles`)  ORDER BY `pubdate` DESC");
+    $FirstTwoSingles = $db->query("SELECT * FROM `articles` ORDER BY `pubdate` DESC LIMIT 0,2");
     return $FirstTwoSingles;
 }
 
@@ -790,9 +795,9 @@ function mailing_check($email)
 function drop_mailing($email)
 {
     global $db;
-    
+
     $db->query("DELETE FROM `mailing` WHERE `email` = '$email'");
-    
+
     $results = $db->query("SELECT count(*) FROM `mailing` WHERE `email` = '$email'");
     if (is_array($results) || is_object($results)) {
         foreach ($results as $result) {
@@ -801,3 +806,14 @@ function drop_mailing($email)
     }
 }
 
+function get_user_by_id($id)
+{
+    global $db;
+
+    $results =  $db->query("SELECT * FROM `user` WHERE `id` = '$id'");
+    if (is_array($results) || is_object($results)) {
+        foreach ($results as $result) {
+            return $result;
+        }
+    }
+}

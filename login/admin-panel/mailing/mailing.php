@@ -85,7 +85,7 @@ if (isset($_POST['action']) && $_POST['action'] == "SEND_MAILING") {
             // Проверяем отравленность сообщения
             if ($mail->send()) {
                 $result = "success";
-                echo "Рассылка прошла успешно.";
+                
             } else {
                 $result = "error";
                 

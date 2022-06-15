@@ -40,7 +40,7 @@
                             <label class="form-label" id="user_agreement_err" style="color: red" for="user_agreement"></label>
                             <input class="form-check-input me-2" type="checkbox" value="" id="user_agreement" />
                             <label class="form-check-label" for="user_agreement">
-                                Я согласен с <a href="#!" class="text-body"><u>пользовательским соглашением.</u></a>
+                                Я согласен с <a href="./?page=rules" class="text-body"><u>пользовательским соглашением</u>.</a>
                             </label>
                         </div>
 

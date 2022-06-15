@@ -1,7 +1,3 @@
-.authorization {
-    background-color: var(--background-color);
-}
-
 .card-form {
     position: relative;
     display: flex;

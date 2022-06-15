@@ -44,8 +44,11 @@ if (isset($_SESSION['user_id'])) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <meta name="yandex-verification" content="7db7c1f70fbc3229" />
+
+    <link rel="icon" href="./img/favicon.ico" type="image/x-icon">
     <link href="libs/bootstrap.css" rel="stylesheet">
-    <title>GameNews</title>
+    <title>GameNews | Игровые новости, новости игр и игровой индустрии</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="news/newsline.css">
     <link rel="stylesheet" href="slider/slider.css">
@@ -57,7 +60,6 @@ if (isset($_SESSION['user_id'])) {
     <link rel="stylesheet" href="help/help.css">
     <link rel="stylesheet" href="login/lk/lk.css">
     <link rel="stylesheet" href="login/admin-panel/admin.css">
-
 </head>
 
 
@@ -127,7 +129,7 @@ if (isset($_SESSION['user_id'])) {
 
                                                 </div>
 
-                                     
+
                                             </div>
                                         </div>
                                     </div>
@@ -232,6 +234,15 @@ if (isset($_SESSION['user_id'])) {
         elseif (isset($_GET['page']) && $_GET['page'] == "post") :
 
             require "./help/post.php";
+        elseif (isset($_GET['page']) && $_GET['page'] == "about_us") :
+
+            require "./help/about_us.php";
+        elseif (isset($_GET['page']) && $_GET['page'] == "advanceded") :
+
+            require "./help/advanceded.php";
+        elseif (isset($_GET['page']) && $_GET['page'] == "rules") :
+
+            require "./help/rules.php";
         else :
             require "./slider/slider-home.php";
             require "./news/content-home.php";
@@ -244,23 +255,22 @@ if (isset($_SESSION['user_id'])) {
             <div class="container-xxl cfoot">
                 <table class="table social" style="color: #ffffff;">
                     <tr>
-                        <td><a href="" target="_blank"><img src="img/svg/vk.svg" alt="" style="width: 24px; height: 24px;"></a></td>
-                        <td><a href="" target="_blank"><img src="img/svg/tg.svg" alt="" style="width: 24px; height: 24px;"></a></td>
-                        <td><a href="https://discord.gg/jAzpUmug" target="_blank"><img src="img/svg/discord.png" alt="" style="width: 24px; height: 24px;"></a></td>
+                        <td><a href="https://vk.com/public213923260" target="_blank"><img src="img/svg/vk.svg" alt="" style="width: 24px; height: 24px;"></a></td>
+                        <td><a href="https://t.me/+DYKOa1ye55FjYTgy" target="_blank"><img src="img/svg/tg.svg" alt="" style="width: 24px; height: 24px;"></a></td>
                     </tr>
                 </table>
 
                 <section>
                     <div class="drop-links">
-                        <a href="#" class="lin">О НАС</a>
-                        <a href="#" class="lin">РЕКЛАМА</a>
-                        <a href="#" class="lin">ПОМОЩЬ</a>
+                        <a href="./?page=about_us" class="lin">О НАС</a>
+                        <a href="./?page=advanceded" class="lin">РЕКЛАМА</a>
+                        <a href="./?page=help&go=0&page_num=1" class="lin">ПОМОЩЬ</a>
                     </div>
                     <div class="r18" style="color: white;">
                         <span class="r18"><img src="img/svg/r18.svg" alt="" style="width: 24px; height: 24px;"></span>
                     </div>
                     <div class="foot-info">
-                        <p class="pi">© 2021 GameNews.ru</p>
+                        <p class="pi">© 2022 GameNewss.ru</p>
                         <p class="pi">Использование любых материалов сайта без согласования с администрацией запрещено.
                         </p>
                     </div>
