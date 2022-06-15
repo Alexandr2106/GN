@@ -1,37 +1,43 @@
-.game-name-s {
-    font-size: 18px;
-    font-weight: 600;
-    color: black;
-    padding-left: 12px;
-}
-
-.game_story.description p {
-    margin-bottom: 10px;
-}
-
-.game_story.description {
-    font: 16px 'Roboto', sans-serif;
-    margin-top: 15px;
-}
-
-.game-discript {
-    margin: 20px 0 20px;
-}
-
-.game-list.game-list {
-    padding: 20px;
-    padding-left: 40px;
-    padding-top: 38px;
-}
-
-@media (max-width: 350px) {
+    .game-name-s {
+        font-size: 18px;
+        font-weight: 600;
+        color: black;
+        padding-left: 12px;
+    }
+    
+    .game_story.description p {
+        margin-bottom: 10px;
+    }
+    
+    .game_story.description {
+        font: 16px 'Roboto', sans-serif;
+        margin-top: 15px;
+    }
+    
+    .game-discript {
+        margin: 20px 0 20px;
+    }
+    
     .game-list.game-list {
-        padding: 20px;
-        padding-left: 20px !important;
+        padding-left: 40px;
+        padding-right: 20px;
         padding-top: 38px;
     }
-}
-
-.game_story.description li {
-    padding-bottom: 10px;
-}
+    
+    @media (max-width: 350px) {
+        .game-list.game-list {
+            padding-left: 10px !important;
+            padding-right: 10px !important;
+        }
+    }
+    
+    @media (max-width: 460px) {
+        .game-list.game-list {
+            padding-left: 10px !important;
+            padding-right: 10px !important;
+        }
+    }
+    
+    .game_story.description li {
+        padding-bottom: 10px;
+    }

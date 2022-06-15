@@ -9,13 +9,13 @@
                 </div>
                 <ul class="sort">
                     <li class="sort-item">
-                        <a href="./?page=help"><span class="filter sort-selected">Форум</span></a>
+                        <a href="./?page=help"><span class="filter sort-selected">Форумы</span></a>
                     </li>
                     <li class="sort-item">
-                        <a href="#"><span class="filter">О нас</span></a>
+                        <a href="./?page=about_us"><span class="filter">О нас</span></a>
                     </li>
                     <li class="sort-item">
-                        <a href="#"><span class="filter">Реклама</span></a>
+                        <a href="./?page=advanceded"><span class="filter">Реклама</span></a>
                     </li>
                 </ul>
             </nav>
@@ -34,9 +34,11 @@
             <section class="quest-header">
                 <h1 class="quest-title"><? echo $post['post_title']; ?></h1>
 
+                <? $post_user = get_user_by_id($post['user_id']); ?>
+
                 <div class="descript">
-                    <span><img src="<? echo $user['user_avatar']; ?>" alt="" width="32px" height="32px"></span>
-                    <span><? echo $user['login']; ?></span>
+                    <span><img src="<? echo $post_user['user_avatar']; ?>" alt="" width="32px" height="32px"></span>
+                    <span><? echo $post_user['login']; ?></span>
                     <span><? echo $post['pubdate']; ?></span>
                     <span><img src="img/view-dark.png" alt="Просмотры"><? echo $post['views']; ?></span>
                     <span><img src="img/chat-bubble-dark.png" alt="Комменты"><? echo $comments_count; ?></span>
@@ -113,8 +115,8 @@
                         <div class="if-form">
                             <div class="com-anotation">Авторизуйтесь, чтобы принять участие в обсуждении.</div>
                             <div class="login_block">
-                                <a href="./?page=log">Войти под своим логином</a>
-                                <a href="./?page=reg">Зарегистрироваться</a>
+                                <a href="./?page=log" style="color: black;">Войти под своим логином</a>
+                                <a href="./?page=reg" style="color: black;">Зарегистрироваться</a>
                             </div>
                         </div>
                     <? elseif (isset($_SESSION['user_id'])) : ?>

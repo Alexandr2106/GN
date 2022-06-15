@@ -307,6 +307,10 @@ p {
     margin-bottom: 0;
 }
 
+.social td {
+    text-align: center;
+}
+
 
 /*footer*/
 

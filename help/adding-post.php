@@ -10,10 +10,10 @@
                         <a href="./?page=help"><span class="filter sort-selected">Форумы</span></a>
                     </li>
                     <li class="sort-item">
-                        <a href="#"><span class="filter">О нас</span></a>
+                        <a href="./?page=about_us"><span class="filter">О нас</span></a>
                     </li>
                     <li class="sort-item">
-                        <a href="#"><span class="filter">Реклама</span></a>
+                        <a href="./?page=advanceded"><span class="filter">Реклама</span></a>
                     </li>
                 </ul>
             </nav>

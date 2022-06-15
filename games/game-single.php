@@ -633,7 +633,7 @@
                     <div>
                         <div class="game-price-header">
                             <div class="game-price-name">
-                                <h1>Посмтореть <?php echo $game['name_game']; ?>:</h1>
+                                <h1>Посмотреть <?php echo $game['name_game']; ?>:</h1>
                             </div>
                         </div>
 
